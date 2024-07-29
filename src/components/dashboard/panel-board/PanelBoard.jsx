@@ -47,16 +47,15 @@ function PanelBoard() {
           await getMatchOutComePredictions(fixtureId);
 
         setMatchOutComePredictions(
-          matchOutComePredictionsResponse.data.response[0].predictions,
+          matchOutComePredictionsResponse.response[0],
         );
         
-
-        const oddsList = await getOdds(season,fixtureId,league);
-        setOdds(oddsList);
-
+        // const oddsList = await getOdds(season,fixtureId,league);
+        // setOdds(oddsList);
+        
         const leagueStandingsResponse = await getStandings(league, season);
 
-        setLeagueStandingsData(leagueStandingsResponse?.data?.response[0].league.standings);
+        setLeagueStandingsData(leagueStandingsResponse.response[0].league);
       } catch (error) {
         console.error(error);
       } finally {

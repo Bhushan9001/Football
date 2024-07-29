@@ -6,16 +6,17 @@ import { handleApiError } from "./handleApiError";
 
 export const getMatchOutComePredictions = async (fixture) => {
   try {
-    const response = await axios.post(
-      `https://v3.football.api-sports.io/predictions?${fixture}`,
+    const response = await axios.get(
+      `https://v3.football.api-sports.io/predictions?fixture=${fixture}`,
       {
         headers:{
           'Content-Type': 'application/json',
           'x-rapidapi-host':'v3.football.api-sports.io',
-          'x-rapidapi-key': import.meta.env.VITE_RAPID_API_KEY
+          'x-rapidapi-key': import.meta.env.VITE_API_KEY
         } 
       },
     );
+    // console.log(response.data.response[0])
     return response.data;
   } catch (error) {
     handleApiError(error);

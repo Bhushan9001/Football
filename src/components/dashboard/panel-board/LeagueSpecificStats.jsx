@@ -5,6 +5,7 @@ const LOWER_LIMIT_PERCENTAGE = 15;
 
 function LeagueSpecificStats({ data }) {
   const location = useLocation();
+  console.log(data);
 
   const searchParms = new URLSearchParams(location.search);
 
@@ -12,7 +13,7 @@ function LeagueSpecificStats({ data }) {
 
   const awayTeamId = searchParms.get("away");
 
-  const homeTeamRank = data.standings[0].filter(
+  const homeTeamRank = data.standings.standings[0].filter(
     (team) => team.team.id == homeTeamId,
   )[0]?.rank;
 
