@@ -16,7 +16,7 @@ export const getMatchOutComePredictions = async (fixture) => {
         } 
       },
     );
-    // console.log(response.data.response[0])
+    console.log(response.data)
     return response.data;
   } catch (error) {
     handleApiError(error);

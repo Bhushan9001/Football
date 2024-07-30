@@ -28,6 +28,7 @@ export const getFixtureHead2HeadStats = async (teamOneId, teamTwoId) => {
         headers: getAuthorizationHeader(),
       },
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     handleApiError(error);

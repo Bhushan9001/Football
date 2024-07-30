@@ -24,6 +24,7 @@ function HalfTime() {
   const [h2hData, setH2hData] = useState([]);
 
   const [matchOutComePredictions, setMatchOutComePredictions] = useState([]);
+  
 
   const [loading, setLoading] = useState(true);
 
@@ -31,11 +32,11 @@ function HalfTime() {
     (async () => {
       try {
         const matchOutComePredictionsResponse =
-          await getMatchOutComePredictions(fixtureId);
+        await getMatchOutComePredictions(fixtureId);
 
-        setMatchOutComePredictions(
-          matchOutComePredictionsResponse.data.response[0],
-        );
+      setMatchOutComePredictions(
+        matchOutComePredictionsResponse.response[0],
+      );
         const response = await getFixtureHead2HeadStats(homeTeamId, awayTeamId);
         setH2hData(response.data.response);
       } catch (error) {

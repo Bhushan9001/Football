@@ -56,6 +56,8 @@ function PanelBoard() {
         const leagueStandingsResponse = await getStandings(league, season);
 
         setLeagueStandingsData(leagueStandingsResponse.response[0].league);
+
+        console.log(leagueStandingsData)
       } catch (error) {
         console.error(error);
       } finally {
