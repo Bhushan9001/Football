@@ -50,14 +50,14 @@ function PanelBoard() {
           matchOutComePredictionsResponse.response[0],
         );
         
-        // const oddsList = await getOdds(season,fixtureId,league);
-        // setOdds(oddsList);
+        const oddsList = await getOdds(season,fixtureId,league);
+        setOdds(oddsList);
         
         const leagueStandingsResponse = await getStandings(league, season);
 
         setLeagueStandingsData(leagueStandingsResponse.response[0].league);
 
-        console.log(leagueStandingsData)
+        
       } catch (error) {
         console.error(error);
       } finally {

@@ -15,6 +15,7 @@ export const getTeamPlayers = async (teamId) => {
         headers: getAuthorizationHeader(),
       },
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     handleApiError(error);

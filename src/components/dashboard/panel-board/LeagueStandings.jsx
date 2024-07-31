@@ -6,57 +6,6 @@ import { useEffect, useState } from "react";
 import { getStandings } from "../../../services/apiStandings";
 import Loader from "../../../ui/Loader";
 
-const data = [
-  {
-    name: "Maccabi Tel Aviv",
-    logo: "/assets/img/dashboard/604.png",
-    points: 39,
-    matches_played: 16,
-    win: 12,
-    draw: 3,
-    lose: 1,
-    scored: 34,
-    conceded: 12,
-    prev_five_matches: [1, -1, 0, 1, 0],
-  },
-  {
-    name: "Maccabi Haifa Maccabi Haifa",
-    logo: "/assets/img/dashboard/4195.png",
-    points: 39,
-    matches_played: 16,
-    win: 12,
-    draw: 3,
-    lose: 1,
-    scored: 34,
-    conceded: 12,
-    prev_five_matches: [-1, 1, 1, 1, 0],
-  },
-  {
-    name: "Maccabi Tel Aviv",
-    logo: "/assets/img/dashboard/604.png",
-    points: 39,
-    matches_played: 16,
-    win: 12,
-    draw: 3,
-    lose: 1,
-    scored: 34,
-    conceded: 12,
-    prev_five_matches: [1, -1, 0, 1, 0],
-  },
-  {
-    name: "Maccabi Haifa Maccabi Haifa",
-    logo: "/assets/img/dashboard/4195.png",
-    points: 39,
-    matches_played: 16,
-    win: 12,
-    draw: 3,
-    lose: 1,
-    scored: 34,
-    conceded: 12,
-    prev_five_matches: [-1, 1, 1, 1, 0],
-  },
-];
-
 const CustomDataTable = styled(DataTable)`
   .p-column-header-content {
     display: unset;
@@ -104,7 +53,9 @@ function LeagueStandings({ standingsData }) {
   };
 
   const formBodyTemplate = (rowData) => {
+    console.log(rowData)
     return (
+      
       <div className="flex justify-center gap-1 rounded-[inherit] py-2 text-center text-sm text-white">
         {rowData.form.split("").map((result, index) => (
           <span
