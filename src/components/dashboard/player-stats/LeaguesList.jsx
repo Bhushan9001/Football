@@ -13,6 +13,7 @@ function LeaguesList() {
       try {
         const response = await getAllLeagues();
         setLeagues(response.data.response);
+        
       } catch (error) {
         toast.error(error);
       } finally {
@@ -20,7 +21,7 @@ function LeaguesList() {
       }
     })();
   }, []);
-
+  
   if (loading) return <Loader />;
 
   return (
@@ -42,7 +43,7 @@ function LeaguesList() {
           <h4 className="my-2 font-medium">
             {league.league.type} in {league.country.name}
           </h4>
-          <p>{/* {league.players} players in {league.teams} teams */}</p>
+          
         </Link>
       ))}
     </section>

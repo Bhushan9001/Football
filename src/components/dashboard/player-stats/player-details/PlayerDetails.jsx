@@ -17,7 +17,7 @@ function PlayerDetails() {
 
   const playerId = searchParams.get("player") || "";
 
-  const seasonId = searchParams.get("season") || "2023";
+  const seasonId = searchParams.get("season") || "2024";
 
   const [loading, setLoading] = useState(false);
 

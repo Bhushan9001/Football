@@ -17,7 +17,7 @@ function PlayerStats() {
 
   const player = searchParams.get("player") || "";
 
-  const season = searchParams.get("season") || "2023";
+  const season = searchParams.get("season") || "2024";
 
   if (country) {
     return <LeagueTeams country={country} />;

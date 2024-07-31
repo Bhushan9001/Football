@@ -1,4 +1,5 @@
 function MatchOverview({ data }) {
+  console.log(data)
   return (
     <section className="sticky top-0 z-50 flex items-start gap-6 bg-white">
       {/* 01 */}
