@@ -12,7 +12,7 @@ function TeamDetails({ teamId, seasonId = "2024" }) {
   const detailsBodyTemplate = (rowData) => {
     return (
       <div className="flex gap-2">
-        <Link>
+        <Link to = "/dashboard">
           <i className="bi bi-star text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
         <Link
