@@ -150,6 +150,15 @@ function Sidebar({ setMinimizeSidebar }) {
         <li>
           <NavLink
             onClick={setMinimizeSidebar}
+            to="game-statistics"
+            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+          >
+            Game Statistics
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            onClick={setMinimizeSidebar}
             to="diary"
             className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
           >
