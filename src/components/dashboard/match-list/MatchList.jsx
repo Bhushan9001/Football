@@ -18,14 +18,9 @@ function MatchList() {
   const [selectedTeam, setSelectedTeam] = useState({ league: { id: "140", name: "La Liga" } });
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
 
-  // Filtered fixtures based on search query
-  const filteredFixtures = fixtures.filter((fixture) =>
-    fixture.league.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    fixture.teams.home.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    fixture.teams.away.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchDate, setSearchDate] = useState("");
 
   const leagueNameBodyTemplate = (rowData) => (
     <div className="flex items-center gap-1">
@@ -39,8 +34,7 @@ function MatchList() {
   );
 
   const analyzeBodyTemplate = (rowData) => {
-    
-    const urlPrefix = `fixture=${rowData.fixture.id}&home=${rowData.teams.home.id}&away=${rowData.teams.away.id}&season=${rowData.league.season==2024?(rowData.league.season)-1:rowData.league.season}&league=${rowData.league.id}`;
+    const urlPrefix = `fixture=${rowData.fixture.id}&home=${rowData.teams.home.id}&away=${rowData.teams.away.id}&season=2023&league=${rowData.league.id}`;
 
     return (
       <div className="flex gap-1">
@@ -64,6 +58,10 @@ function MatchList() {
         <Link to={`/dashboard/away-player-stats?${urlPrefix}`}>
           <i className="bi bi-person-badge-fill text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
+        {/* 06 add match to diary */}
+        <Link to={`/dashboard/diary?${urlPrefix}`}>
+          <i className="bi bi-plus text-base text-dbPrimary transition hover:text-dbSecondary"></i>
+        </Link>
       </div>
     );
   };
@@ -83,9 +81,9 @@ function MatchList() {
   }, [selectedTeam, selectedSeason]);
 
   useEffect(() => {
-    const token = "your-token-here";
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWIxODMzMGY3NjI4OGM2M2FkNGE2ZWUiLCJpYXQiOjE3MDY0NTg1ODkzODR9.69Zt6CPDWgcRR4CW5zzXqst8DcFbQwoN_Md4BgQWVvk";
 
-    fetch('https://apis.sports-trading-ai-predictions.com/league-seasons', {
+    fetch('https://apis.sports-trading-ai-predictions.com/league-seasons',{
       headers: {
         'Authorization': `${token}`,
       }
@@ -106,21 +104,21 @@ function MatchList() {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => {
-        setTeams(response.data.data.response);
-        console.log("response.data.data.response", response.data.data.response);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching teams data:', error);
-        setLoading(false);
-      });
+    .then(response => {
+      setTeams(response.data.data.response);
+      console.log("response.data.data.response",response.data.data.response)
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error('Error fetching teams data:', error);
+      setLoading(false);
+    });
   }, []);
 
   if (loading) return <Loader />;
 
   function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
   }
 
   const DropDownForSeason = () => {
@@ -229,69 +227,53 @@ function MatchList() {
           </Menu.Items>
         </Transition>
       </Menu>
+    )
+  }
+
+  const handleSearch = (item) => {
+    const lowerCaseQuery = searchQuery.toLowerCase();
+    const lowerCaseDate = searchDate.toLowerCase();
+    const matchDate = format(parseISO(item.fixture.date), "yyyy-MM-dd");
+
+    return (
+      (lowerCaseQuery === "" || item.teams.home.name.toLowerCase().includes(lowerCaseQuery) || item.teams.away.name.toLowerCase().includes(lowerCaseQuery)) &&
+      (lowerCaseDate === "" || matchDate.includes(lowerCaseDate))
     );
   };
 
   return (
-    <>
-      <h4 className="bg-[#fff3cd] p-4 text-center">
-        You are using freemium. To unlock all features visit your
-        <Link className="pl-1 text-dbPrimary underline transition hover:text-dbSecondary">
-          profile.
-        </Link>
-      </h4>
-      <div className="flex flex-col space-y-4 rounded-md bg-gray-100 p-4 shadow-md">
-        <div className="flex justify-end space-x-4">
-          <DropDownForSeason />
-          <DropDownForTeam />
-        </div>
+    <div className="p-4">
+      <div className="flex justify-between mb-4">
+        <DropDownForTeam />
+        <DropDownForSeason />
+      </div>
+      <div className="flex space-x-4 mb-4">
         <input
           type="text"
-          placeholder="Search teams, leagues, or players..."
-          className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          placeholder="Search by team name"
+          className="p-2 border border-gray-300 rounded-md"
+          value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <DataTable
-          value={filteredFixtures}
-          stripedRows
-          pt={{
-            headerRow: "text-white bg-DbRowHeaderGradient",
-            column: { headerCell: "px-4" },
-          }}
-        >
-          <Column
-            className="px-4 text-xs"
-            header="League"
-            body={leagueNameBodyTemplate}
-          ></Column>
-          <Column
-            className="px-4 text-xs"
-            header="Match Time"
-            body={(rowData) =>
-              format(parseISO(rowData.fixture.date), "dd MMM HH:mm", {
-                timeZone: "UTC",
-              })
-            }
-          ></Column>
-          <Column
-            className="px-4 text-xs"
-            header="Home Team"
-            body={(rowData) => rowData.teams.home.name}
-          ></Column>
-          <Column
-            className="px-4 text-xs"
-            header="Away Team"
-            body={(rowData) => rowData.teams.away.name}
-          ></Column>
-          <Column
-            className="px-4 text-xs"
-            field="awayTeam"
-            header="Analyze"
-            body={analyzeBodyTemplate}
-          ></Column>
-        </DataTable>
+        <input
+          type="date"
+          className="p-2 border border-gray-300 rounded-md"
+          value={searchDate}
+          onChange={(e) => setSearchDate(e.target.value)}
+        />
       </div>
-    </>
+      <DataTable
+        value={fixtures.filter(handleSearch)}
+        rowClassName="cursor-pointer"
+        className="datatable-custom"
+      >
+        <Column field="fixture.date" header="Date" body={(rowData) => format(parseISO(rowData.fixture.date), "dd/MM/yyyy")} />
+        <Column field="teams.home.name" header="Home Team" />
+        <Column field="teams.away.name" header="Away Team" />
+        <Column body={analyzeBodyTemplate} header="Analyze" />
+        <Column body={leagueNameBodyTemplate} header="League" />
+      </DataTable>
+    </div>
   );
 }
 
