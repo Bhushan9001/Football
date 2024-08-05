@@ -1,3 +1,4 @@
+// App.jsx
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -39,6 +40,7 @@ import Verify from "./pages/Verify";
 import ScrollToTop from "./components/website/scrollToTop/ScrollToTop";
 import Calculator from "./components/website/calculator/Calculator";
 import CalculatorV1 from "./components/website/calculator-v1/CalculatorV1";
+import GameStatistics from "./components/dashboard/game-statistics/GameStatistics"; 
 
 function App() {
   return (
@@ -55,11 +57,13 @@ function App() {
               <Route path="/memberships" element={<Memberships />} />
               {/* <Route path="/calculator" element={<Calculator />} /> */}
               <Route path="/calculator" element={<CalculatorV1 />} />
+              
             </Route>
             <Route path="/signup" element={<Signup />} />
             <Route path="/verify" element={<Verify />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
+            
             <Route
               path="/dashboard"
               element={
@@ -71,6 +75,7 @@ function App() {
               <Route index element={<Navigate replace to="match-list" />} />
               <Route path="match-list" element={<MatchList />} />
               <Route path="favourite-teams" element={<FavouriteTeams />} />
+              <Route path="game-statistics" element={<GameStatistics />} />
               <Route path="favourite-players" element={<FavouritePlayers />} />
               <Route path="favourite-leagues" element={<FavouriteLeageus />} />
               <Route
