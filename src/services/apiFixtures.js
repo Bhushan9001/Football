@@ -6,6 +6,7 @@ const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/fixtures`;
 
 export const getAllFixtures = async (leagueId, seasonId) => {
   try {
+    
     const response = await axios.post(
       API_BASE_URL,
       { league_id: leagueId, season_id: seasonId },
@@ -28,7 +29,7 @@ export const getFixtureHead2HeadStats = async (teamOneId, teamTwoId) => {
         headers: getAuthorizationHeader(),
       },
     );
-    console.log(response.data);
+    // console.log(response.data.response.fixture);
     return response.data;
   } catch (error) {
     handleApiError(error);

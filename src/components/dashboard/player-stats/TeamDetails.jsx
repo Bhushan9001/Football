@@ -5,14 +5,15 @@ import { Link } from "react-router-dom";
 import { getTeamPlayers } from "../../../services/apiPlayers";
 import Loader from "../../../ui/Loader";
 
-function TeamDetails({ teamId, seasonId = "2024" }) {
+function TeamDetails({ teamId, seasonId }) {
   const [teamDetails, setTeamDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   
   const detailsBodyTemplate = (rowData) => {
+    console.log(rowData)
     return (
       <div className="flex gap-2">
-        <Link to = "/dashboard">
+        <Link to = "/dashboard/favourite-players?season=2023">
           <i className="bi bi-star text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
         <Link

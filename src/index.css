@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.react-calendar__tile--highlight {
+  @apply bg-yellow-500 text-white rounded-full;
+}
+
 body {
   font-family: "Space Grotesk", sans-serif;
   background-color: #000;

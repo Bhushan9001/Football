@@ -31,7 +31,7 @@ function PlayerStats() {
       />
     );
   } else if (team) {
-    return <TeamDetails teamId={team} seasonId={season} />;
+    return <TeamDetails teamId={team} seasonId={season}  />;
   } else return <LeaguesList />;
 }
 
