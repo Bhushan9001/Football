@@ -4,18 +4,22 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getTeamPlayers } from "../../../services/apiPlayers";
 import Loader from "../../../ui/Loader";
+import { playerArray } from "../favourite-players/favouritePlayerData";
 
-function TeamDetails({ teamId, seasonId }) {
+function TeamDetails({ teamId, seasonId ,  }) {
   const [teamDetails, setTeamDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   
   const detailsBodyTemplate = (rowData) => {
-    console.log(rowData)
     return (
       <div className="flex gap-2">
-        <Link to = "/dashboard/favourite-players?season=2023">
+        <div onClick={()=>{
+          console.log(rowData);
+          playerArray.push({name:rowData.name,league:"",team:teamDetails.team.name})
+          console.log(playerArray)
+        }}>
           <i className="bi bi-star text-base text-dbPrimary transition hover:text-dbSecondary"></i>
-        </Link>
+        </div>
         <Link
           to={`/dashboard/player-stats?player=${rowData.id}&season=${seasonId}`}
         >
@@ -29,6 +33,7 @@ function TeamDetails({ teamId, seasonId }) {
     (async () => {
       try {
         const response = await getTeamPlayers(teamId);
+        console.log(response.data.response[0]);
         setTeamDetails(response.data.response[0]);
       } catch (error) {
         console.error(error);

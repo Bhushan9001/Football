@@ -2,139 +2,10 @@ import { Link } from "react-router-dom";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import styled from "styled-components";
+import { playerArray } from "./favouritePlayerData";
 
-const data = [
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-  {
-    name: "I. Bennacer",
-    league: "Coppa Italia 2023",
-    team: "AC milan",
-  },
-  {
-    name: "D. Calabria",
-    league: "Serie A 2023",
-    team: "AC milan",
-  },
-];
+
+  
 
 const CustomDataTable = styled(DataTable)`
   .p-column-header-content {
@@ -159,7 +30,7 @@ function FavouritePlayers() {
     <>
       <h4 className="text-center font-medium">Favourite Players</h4>
       <CustomDataTable
-        value={data}
+        value={playerArray}
         stripedRows
         pt={{
           headerRow: {

@@ -49,7 +49,7 @@ function Diary() {
         <RecentForm />
         <FavouriteAllTimeStats />
       </div>
-      <MyPicks data = {teams} predictions = {matchOutComePredictions} />
+      {fixtureId?<MyPicks data = {teams} predictions = {matchOutComePredictions} />:<Loader/>}
     </div>
   );
 }

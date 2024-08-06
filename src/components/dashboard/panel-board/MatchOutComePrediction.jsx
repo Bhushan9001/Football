@@ -17,68 +17,48 @@ function MatchOutComePrediction({ data }) {
       {/* 01 */}
       <div className="flex text-white">
         <div className="flex-1 text-center">
-          <h3 className="rounded-bl-md rounded-tl-md bg-dbPrimary py-1">1</h3>
+          <h3 className="rounded-bl-md rounded-tl-md bg-dbPrimary py-1">Home</h3>
           <p className="border-r-[1px] border-gray-400 py-2 text-black">
             {(home==0)?"N/A":Math.round((((1/home*100)) + Number.EPSILON) * 100) / 100}%
           </p>
         </div>
         <div className="flex-1 text-center">
-          <h3 className="bg-DbRowHeaderGradient py-1">X</h3>
+          <h3 className="bg-DbRowHeaderGradient py-1">Draw</h3>
           <p className="border-r-[1px] border-gray-400 py-2 text-black">
             {(draw==0)?"N/A":Math.round((((1/draw)*100) + Number.EPSILON) * 100) / 100}%
           </p>
         </div>
         <div className="flex-1">
           <h3 className="rounded-br-md rounded-tr-md bg-dbSecondary py-1 text-center">
-            2
+            Away
           </h3>
           <p className="py-2 text-black">{(away==0)?"N/A":Math.round((((1/away)*100) + Number.EPSILON) * 100) / 100}%</p>
         </div>
       </div>
-      {/* 02 */}
-      <div className="flex !hidden text-white">
+      <div className="flex text-white">
         <div className="flex-1 text-center">
-          <h3 className="rounded-bl-md rounded-tl-md bg-DbRowHeaderGradient py-1">
-            1X
-          </h3>
+          <h3 className="rounded-bl-md rounded-tl-md bg-dbPrimary py-1">Home</h3>
           <p className="border-r-[1px] border-gray-400 py-2 text-black">
-            49.49%
+            {data.predictions.percent.home}
           </p>
         </div>
         <div className="flex-1 text-center">
-          <h3 className="bg-DbRowHeaderGradient py-1">X2</h3>
+          <h3 className="bg-DbRowHeaderGradient py-1">Draw</h3>
           <p className="border-r-[1px] border-gray-400 py-2 text-black">
-            27.19%
-          </p>
-        </div>
-        <div className="flex-1">
-          <h3 className="rounded-br-md rounded-tr-md bg-DbRowHeaderGradient py-1 text-center">
-            12
-          </h3>
-          <p className="py-2 text-black">49.49%</p>
-        </div>
-      </div>
-      {/* 03 */}
-      <div className="flex !hidden text-white">
-        <div className="flex-1 text-center">
-          <h3 className="rounded-bl-md rounded-tl-md bg-dbPrimary py-1">1</h3>
-          <p className="border-r-[1px] border-gray-400 py-2 text-black">
-            49.49%
-          </p>
-        </div>
-        <div className="flex-1 text-center">
-          <h3 className="bg-DbRowHeaderGradient py-1">Without Draw</h3>
-          <p className="border-r-[1px] border-gray-400 py-2 text-black">
-            27.19%
+            {data.predictions.percent.draw}
           </p>
         </div>
         <div className="flex-1">
           <h3 className="rounded-br-md rounded-tr-md bg-dbSecondary py-1 text-center">
-            2
+            Away
           </h3>
-          <p className="py-2 text-black">49.49%</p>
+          <p className="py-2 text-black">{data.predictions.percent.away}</p>
         </div>
       </div>
+      {/* 02 */}
+      
+      {/* 03 */}
+      
       {/* 04 */}
       <div className="!hidden text-black">
         <h3 className="rounded-tl-md rounded-tr-md bg-DbRowHeaderGradient py-1 text-white">
