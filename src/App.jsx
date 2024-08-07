@@ -41,6 +41,8 @@ import ScrollToTop from "./components/website/scrollToTop/ScrollToTop";
 import Calculator from "./components/website/calculator/Calculator";
 import CalculatorV1 from "./components/website/calculator-v1/CalculatorV1";
 import GameStatistics from "./components/dashboard/game-statistics/GameStatistics"; 
+import OddsVisualizer from "./components/dashboard/odds/OddsData";
+import Odds from "./components/dashboard/odds/Odds";
 
 function App() {
   return (
@@ -63,7 +65,7 @@ function App() {
             <Route path="/verify" element={<Verify />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
-            
+            <Route path="/odds" element={<OddsVisualizer/>} />
             <Route
               path="/dashboard"
               element={
@@ -93,6 +95,7 @@ function App() {
               <Route path="user-profile" element={<UserProfile />} />
               <Route path="change-plan" element={<ChangePlan />} />
               <Route path="panel-board" element={<PanelBoard />} />
+              <Route path="odds" element={<Odds />} />
               <Route path="half-time" element={<HalfTime />} />
               <Route path="corners" element={<Corners />} />
               <Route path="home-player-stats" element={<HomePlayerStats />} />

@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { getAllFixtures } from "../services/apiFixtures";
-import { Button, Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Fragment } from 'react'
+import { Button, Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { FixedSizeList as List } from 'react-window';
 import axios from "axios";
 
@@ -12,9 +11,9 @@ function LandingPage() {
   const [loading, setLoading] = useState(true); // Initialize with true to show loading state
   const [matches, setMatches] = useState([]); // Initialize as an empty array
   const [seasons, setSeasons] = useState([]);
-  const [selectedSeason, setSelectedSeason]= useState("2024")
+  const [selectedSeason, setSelectedSeason] = useState("2024");
   const [teams, setTeams] = useState([]);
-  const [selectedTeam, setSelectedTeam]= useState({ league: { id: "140", name: "La Liga" } })
+  const [selectedTeam, setSelectedTeam] = useState({ league: { id: "140", name: "La Liga" } });
   const [isOpen, setIsOpen] = useState(false);
 
   // Function to find a match on a specific date
@@ -64,7 +63,7 @@ function LandingPage() {
     // Fetch data from the API endpoint
     const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWIxODMzMGY3NjI4OGM2M2FkNGE2ZWUiLCJpYXQiOjE3MDY0NTg1ODkzODR9.69Zt6CPDWgcRR4CW5zzXqst8DcFbQwoN_Md4BgQWVvk";
 
-    fetch('https://apis.sports-trading-ai-predictions.com/league-seasons',{
+    fetch('https://apis.sports-trading-ai-predictions.com/league-seasons', {
       headers: {
         'Authorization': `${token}`,
       }
@@ -79,15 +78,15 @@ function LandingPage() {
         setLoading(false);
       });
 
-      axios.get('https://apis.sports-trading-ai-predictions.com/leagues', {
-        headers: {
-          'Authorization': `${token}`,
-          'Content-Type': 'application/json'
-        }
-      })
+    axios.get('https://apis.sports-trading-ai-predictions.com/leagues', {
+      headers: {
+        'Authorization': `${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
       .then(response => {
         setTeams(response.data.data.response);
-        console.log("response.data.data.response",response.data.data.response)
+        console.log("response.data.data.response", response.data.data.response);
         setLoading(false);
       })
       .catch(error => {
@@ -97,67 +96,16 @@ function LandingPage() {
   }, []);
 
   function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
   }
-  
-  const DropDownForSeason =()=>{
-    return (
-      <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-           {loading ? 'Loading...' : selectedSeason}
-          <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
-        </Menu.Button>
-      </div>
-
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
-            {seasons.map((season, index) => (
-              <Menu.Item key={index}>
-                {({ active }) => (
-                  <button
-                    className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm w-full text-left'
-                    )}
-                    onClick={() => {
-                      // Handle selection of season here
-                      setSelectedSeason(season)
-                      console.log('Selected season:', season);
-                    }}
-                  >
-                    {season}
-                  </button>
-                )}
-              </Menu.Item>
-            ))}
-          </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
-    )
-  }
-
-
-
 
   const DropDownForTeam = () => {
-  
     const handleSelection = (team) => {
       setSelectedTeam(team);
       setIsOpen(false);
       console.log('Selected team:', team.league);
     };
-  
+
     const Row = ({ index, style }) => (
       <Menu.Item key={index}>
         {({ active }) => (
@@ -174,7 +122,7 @@ function LandingPage() {
         )}
       </Menu.Item>
     );
-  
+
     return (
       <Menu as="div" className="relative inline-block text-left">
         <div>
@@ -186,7 +134,7 @@ function LandingPage() {
             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
           </Menu.Button>
         </div>
-  
+
         <Transition
           as={Fragment}
           show={isOpen}
@@ -213,24 +161,21 @@ function LandingPage() {
       </Menu>
     );
   };
-  return (
-     <main className="min-h-screen ">
-     
-      <div className="pt-20 flex flex-col">
-      <div className="flex justify-center space-x-4 rounded-md bg-gray-100 p-4 shadow-md mt-20">
-        <DropDownForSeason />
 
-        <DropDownForTeam />
+  return (
+    <main className="min-h-screen bg-black">
+      <div className="pt-40 flex flex-col items-center">
+        <div className="flex justify-end w-full max-w-4xl">
+          <DropDownForTeam />
+        </div>
+        <div className="w-full max-w-4xl mt-4">
+          <h1 className="text-2xl font-bold mb-4 text-center">Match Calendar</h1>
+          <Calendar
+            tileContent={tileContent}
+            className="border rounded-lg shadow-lg w-full bg-white"
+          />
+        </div>
       </div>
-      
-        <h1>Match Calendar</h1>
-        <Calendar 
-        
-        tileContent={tileContent}
-        className="border rounded-lg shadow-lg w-full max-w-4xl mx-auto bg-white"
-      />
-      </div>
-      
     </main>
   );
 }

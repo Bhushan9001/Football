@@ -62,6 +62,10 @@ function MatchList() {
         <Link to={`/dashboard/diary?${urlPrefix}`}>
           <i className="bi bi-plus text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
+        {/* odds data for matches */}
+        <Link to={`/dashboard/odds?${urlPrefix}`}>
+          <i className="bi bi-circle text-base text-dbPrimary transition hover:text-dbSecondary"></i>
+        </Link>
       </div>
     );
   };

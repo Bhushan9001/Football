@@ -19,7 +19,7 @@ export const getOdds = async (season_id,fixture,league) => {
             }
         )
         console.log(response.data);
-        return response.data;
+        return response.data.response;
 
     } catch (error) {
         handleApiError(error);
