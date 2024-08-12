@@ -48,6 +48,7 @@ function HalfTime() {
   }, []);
 
   if (loading) return <Loader />;
+  if(!matchOutComePredictions) return <div>Could not fecth the data</div>
 
   return (
     <>

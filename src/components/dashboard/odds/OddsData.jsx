@@ -2,155 +2,155 @@ import React, { useEffect, useState } from 'react';
 import Loader from '../../../ui/Loader';
 
 function OddsVisualizer({oddsResponse}) {
-  const [oddsData, setOddsData] = useState(oddsResponse);
+  const [oddsData, setOddsData] = useState();
   console.log(oddsResponse)
 
   //  
-  // useEffect(() => {
-  //   // Replace this with the actual API call
-  //   const fetchOddsData = async () => {
-  //     const response = {
-  //       "response": [
-  //         {
-  //           "league": {
-  //             "id": 116,
-  //             "name": "Vysshaya Liga",
-  //             "country": "Belarus",
-  //             "logo": "https://media.api-sports.io/football/leagues/116.png",
-  //             "flag": "https://media.api-sports.io/flags/by.svg",
-  //             "season": 2020
-  //           },
-  //           "fixture": {
-  //             "id": 326090,
-  //             "timezone": "UTC",
-  //             "date": "2020-05-15T15:00:00+00:00",
-  //             "timestamp": 1589554800
-  //           },
-  //           "update": "2020-05-15T09:49:32+00:00",
-  //           "bookmakers": [
-  //             {
-  //               "id": 6,
-  //               "name": "Bwin",
-  //               "bets": [
-  //                 {
-  //                   "id": 38,
-  //                   "name": "Exact Goals Number",
-  //                   "values": [
-  //                     { "value": 4, "odd": "7.00" },
-  //                     { "value": 3, "odd": "4.40" },
-  //                     { "value": 2, "odd": "3.40" },
-  //                     { "value": "more 8", "odd": "251.00" },
-  //                     { "value": 7, "odd": "101.00" },
-  //                     { "value": "more 5", "odd": "8.00" },
-  //                     { "value": 6, "odd": "31.00" },
-  //                     { "value": 5, "odd": "14.00" },
-  //                     { "value": 0, "odd": "6.25" },
-  //                     { "value": 1, "odd": "3.90" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 20,
-  //                   "name": "Double Chance - First Half",
-  //                   "values": [
-  //                     { "value": "Home/Draw", "odd": "1.20" },
-  //                     { "value": "Home/Away", "odd": "1.75" },
-  //                     { "value": "Draw/Away", "odd": "1.26" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 17,
-  //                   "name": "Total - Away",
-  //                   "values": [
-  //                     { "value": "Under 2.5", "odd": "1.06" },
-  //                     { "value": "Over 2.5", "odd": "7.25" },
-  //                     { "value": "Under 1.5", "odd": "1.33" },
-  //                     { "value": "Over 1.5", "odd": "3.10" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 16,
-  //                   "name": "Total - Home",
-  //                   "values": [
-  //                     { "value": "Under 2.5", "odd": "1.09" },
-  //                     { "value": "Over 2.5", "odd": "6.25" },
-  //                     { "value": "Under 1.5", "odd": "1.40" },
-  //                     { "value": "Over 1.5", "odd": "2.70" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 22,
-  //                   "name": "Odd/Even - First Half",
-  //                   "values": [
-  //                     { "value": "Even", "odd": "1.60" },
-  //                     { "value": "Odd", "odd": "2.20" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 30,
-  //                   "name": "Win to Nil - Away",
-  //                   "values": [
-  //                     { "value": "Yes", "odd": "4.40" },
-  //                     { "value": "No", "odd": "1.17" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 29,
-  //                   "name": "Win to Nil - Home",
-  //                   "values": [
-  //                     { "value": "No", "odd": "1.22" },
-  //                     { "value": "Yes", "odd": "3.75" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 8,
-  //                   "name": "Both Teams Score",
-  //                   "values": [
-  //                     { "value": "No", "odd": "1.72" },
-  //                     { "value": "Yes", "odd": "2.00" }
-  //                   ]
-  //                 }
-  //               ]
-  //             },
-  //             {
-  //               "id": 7,
-  //               "name": "Bhushan",
-  //               "bets": [
-  //                 {
-  //                   "id": 38,
-  //                   "name": "Exact Goals Number",
-  //                   "values": [
-  //                     { "value": 4, "odd": "7.00" },
-  //                     { "value": 3, "odd": "4.40" },
-  //                     { "value": 2, "odd": "3.40" },
-  //                     { "value": "more 8", "odd": "251.00" },
-  //                     { "value": 7, "odd": "101.00" },
-  //                     { "value": "more 5", "odd": "8.00" },
-  //                     { "value": 6, "odd": "31.00" },
-  //                     { "value": 5, "odd": "14.00" },
-  //                     { "value": 0, "odd": "6.25" },
-  //                     { "value": 1, "odd": "3.90" }
-  //                   ]
-  //                 },
-  //                 {
-  //                   "id": 8,
-  //                   "name": "Both Teams Score",
-  //                   "values": [
-  //                     { "value": "No", "odd": "1.72" },
-  //                     { "value": "Yes", "odd": "2.00" }
-  //                   ]
-  //                 }
-  //               ]
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     };
-  //     setOddsData(response.response);
+  useEffect(() => {
+    // Replace this with the actual API call
+    const fetchOddsData = async () => {
+      const response = {
+        "response": [
+          {
+            "league": {
+              "id": 116,
+              "name": "Vysshaya Liga",
+              "country": "Belarus",
+              "logo": "https://media.api-sports.io/football/leagues/116.png",
+              "flag": "https://media.api-sports.io/flags/by.svg",
+              "season": 2020
+            },
+            "fixture": {
+              "id": 326090,
+              "timezone": "UTC",
+              "date": "2020-05-15T15:00:00+00:00",
+              "timestamp": 1589554800
+            },
+            "update": "2020-05-15T09:49:32+00:00",
+            "bookmakers": [
+              {
+                "id": 6,
+                "name": "Bwin",
+                "bets": [
+                  {
+                    "id": 38,
+                    "name": "Exact Goals Number",
+                    "values": [
+                      { "value": 4, "odd": "7.00" },
+                      { "value": 3, "odd": "4.40" },
+                      { "value": 2, "odd": "3.40" },
+                      { "value": "more 8", "odd": "251.00" },
+                      { "value": 7, "odd": "101.00" },
+                      { "value": "more 5", "odd": "8.00" },
+                      { "value": 6, "odd": "31.00" },
+                      { "value": 5, "odd": "14.00" },
+                      { "value": 0, "odd": "6.25" },
+                      { "value": 1, "odd": "3.90" }
+                    ]
+                  },
+                  {
+                    "id": 20,
+                    "name": "Double Chance - First Half",
+                    "values": [
+                      { "value": "Home/Draw", "odd": "1.20" },
+                      { "value": "Home/Away", "odd": "1.75" },
+                      { "value": "Draw/Away", "odd": "1.26" }
+                    ]
+                  },
+                  {
+                    "id": 17,
+                    "name": "Total - Away",
+                    "values": [
+                      { "value": "Under 2.5", "odd": "1.06" },
+                      { "value": "Over 2.5", "odd": "7.25" },
+                      { "value": "Under 1.5", "odd": "1.33" },
+                      { "value": "Over 1.5", "odd": "3.10" }
+                    ]
+                  },
+                  {
+                    "id": 16,
+                    "name": "Total - Home",
+                    "values": [
+                      { "value": "Under 2.5", "odd": "1.09" },
+                      { "value": "Over 2.5", "odd": "6.25" },
+                      { "value": "Under 1.5", "odd": "1.40" },
+                      { "value": "Over 1.5", "odd": "2.70" }
+                    ]
+                  },
+                  {
+                    "id": 22,
+                    "name": "Odd/Even - First Half",
+                    "values": [
+                      { "value": "Even", "odd": "1.60" },
+                      { "value": "Odd", "odd": "2.20" }
+                    ]
+                  },
+                  {
+                    "id": 30,
+                    "name": "Win to Nil - Away",
+                    "values": [
+                      { "value": "Yes", "odd": "4.40" },
+                      { "value": "No", "odd": "1.17" }
+                    ]
+                  },
+                  {
+                    "id": 29,
+                    "name": "Win to Nil - Home",
+                    "values": [
+                      { "value": "No", "odd": "1.22" },
+                      { "value": "Yes", "odd": "3.75" }
+                    ]
+                  },
+                  {
+                    "id": 8,
+                    "name": "Both Teams Score",
+                    "values": [
+                      { "value": "No", "odd": "1.72" },
+                      { "value": "Yes", "odd": "2.00" }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": 7,
+                "name": "Bhushan",
+                "bets": [
+                  {
+                    "id": 38,
+                    "name": "Exact Goals Number",
+                    "values": [
+                      { "value": 4, "odd": "7.00" },
+                      { "value": 3, "odd": "4.40" },
+                      { "value": 2, "odd": "3.40" },
+                      { "value": "more 8", "odd": "251.00" },
+                      { "value": 7, "odd": "101.00" },
+                      { "value": "more 5", "odd": "8.00" },
+                      { "value": 6, "odd": "31.00" },
+                      { "value": 5, "odd": "14.00" },
+                      { "value": 0, "odd": "6.25" },
+                      { "value": 1, "odd": "3.90" }
+                    ]
+                  },
+                  {
+                    "id": 8,
+                    "name": "Both Teams Score",
+                    "values": [
+                      { "value": "No", "odd": "1.72" },
+                      { "value": "Yes", "odd": "2.00" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+      setOddsData(response.response);
       
-  //   };
+    };
 
-  //   fetchOddsData();
-  // }, []);
+    fetchOddsData();
+  }, []);
 
   if (!oddsData) {
     return <h1 className='text-center'>Could not fecth the data </h1>;

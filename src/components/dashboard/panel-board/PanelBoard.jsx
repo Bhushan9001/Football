@@ -67,6 +67,8 @@ function PanelBoard() {
   }, []);
 
   if (loading) return <Loader />;
+  if(!matchOutComePredictions) return <div>Could Not fecth the data</div>
+
 
   return (
     <>
