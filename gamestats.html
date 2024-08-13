@@ -1,0 +1,42 @@
+<!-- gameStats.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Widget</title>
+</head>
+<body>
+  <div id="wg-api-football-game"
+       data-host="v3.football.api-sports.io"
+       data-key="0fb70030b73ffc8fb8d5107c0e2f4500"
+       data-id="718243"
+       data-theme=""
+       data-refresh="15"
+       data-show-errors="false"
+       data-show-logos="true">
+  </div>
+  <script>
+    // Function to get URL parameters
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Get the 'id' parameter from the URL, or use the default value
+    var id = getUrlParameter('id') || '718243';
+
+    // Update the data-id attribute
+    document.getElementById('wg-api-football-game').setAttribute('data-id', id);
+
+    // Add the id to the URL if it's not already there
+    if (!window.location.search.includes('id=')) {
+      var newUrl = window.location.href + (window.location.search ? '&' : '?') + 'id=' + id;
+      window.history.replaceState({}, '', newUrl);
+    }
+  </script>
+  <script type="module" src="https://widgets.api-sports.io/2.0.3/widgets.js"></script>
+</body>
+</html>

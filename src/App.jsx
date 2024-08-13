@@ -1,12 +1,15 @@
 // App.jsx
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
+// Pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgetPassword from "./pages/ForgetPassword";
 import WebsiteLayout from "./pages/WebsiteLayout";
 import LandingPage from "./pages/LandingPage";
 import Home from "./pages/Home";
-import { ParallaxProvider } from "react-scroll-parallax";
+
+import { ParallaxProvider } from "react-scroll-parallax"; //A component that ensures certain routes are only accessible to logged-in users.
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "aos/dist/aos.css";
@@ -35,7 +38,9 @@ import AwayPlayerStats from "./components/dashboard/away-player-stats/AwayPlayer
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import { AuthProvider } from "./contexts/AuthContext";
+
+import { AuthProvider } from "./contexts/AuthContext"; //It keeps track of whether a user is logged in and shares this information with all the parts of your app 
+
 import Verify from "./pages/Verify";
 import ScrollToTop from "./components/website/scrollToTop/ScrollToTop";
 import Calculator from "./components/website/calculator/Calculator";
@@ -77,7 +82,7 @@ function App() {
               <Route index element={<Navigate replace to="match-list" />} />
               <Route path="match-list" element={<MatchList />} />
               <Route path="favourite-teams" element={<FavouriteTeams />} />
-              <Route path="game-statistics" element={<GameStatistics />} />
+              <Route path="game-statistics" element={<GameStatistics/>} />
               <Route path="favourite-players" element={<FavouritePlayers />} />
               <Route path="favourite-leagues" element={<FavouriteLeageus />} />
               <Route

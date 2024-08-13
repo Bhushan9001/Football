@@ -1,3 +1,4 @@
+// MatchList.jsx
 import { Link } from "react-router-dom";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -52,19 +53,23 @@ function MatchList() {
         </Link>
         {/* 04 Home Team Stats */}
         <Link to={`/dashboard/home-player-stats?${urlPrefix}`}>
-          <i className="bi bi-person-badge-fill text-base text-dbPrimary transition hover:text-dbSecondary"></i>
+          <i className="bi bi-shield-fill text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
         {/* 05 Away Team Stats */}
         <Link to={`/dashboard/away-player-stats?${urlPrefix}`}>
-          <i className="bi bi-person-badge-fill text-base text-dbPrimary transition hover:text-dbSecondary"></i>
+          <i className="bi bi-shield text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
         {/* 06 add match to diary */}
         <Link to={`/dashboard/diary?${urlPrefix}`}>
-          <i className="bi bi-plus text-base text-dbPrimary transition hover:text-dbSecondary"></i>
+          <i className="bi bi-journal-text text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
         {/* odds data for matches */}
         <Link to={`/dashboard/odds?${urlPrefix}`}>
           <i className="bi bi-circle text-base text-dbPrimary transition hover:text-dbSecondary"></i>
+        </Link>
+        {/* Game Statistics */}
+        <Link to={`/dashboard/game-statistics?${urlPrefix}`}>
+          <i className="bi bi-bar-chart-line text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
       </div>
     );
