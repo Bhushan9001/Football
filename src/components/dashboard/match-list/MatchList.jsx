@@ -11,6 +11,46 @@ import { Button, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { FixedSizeList as List } from 'react-window';
 
+function LeagueSearchBar({ teams, onSelectTeam }) {
+  const [leagueSearchQuery, setLeagueSearchQuery] = useState("");
+  const [filteredLeagues, setFilteredLeagues] = useState([]);
+
+  useEffect(() => {
+    const filtered = teams.filter(team => 
+      team.league.name.toLowerCase().includes(leagueSearchQuery.toLowerCase())
+    );
+    setFilteredLeagues(filtered);
+  }, [leagueSearchQuery, teams]);
+
+  return (
+    <div className="relative">
+      <input
+        type="text"
+        placeholder="Search leagues"
+        className="p-2 border border-gray-300 rounded-md w-full"
+        value={leagueSearchQuery}
+        onChange={(e) => setLeagueSearchQuery(e.target.value)}
+      />
+      {leagueSearchQuery && (
+        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+          {filteredLeagues.map((team, index) => (
+            <div
+              key={index}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                onSelectTeam(team);
+                setLeagueSearchQuery("");
+              }}
+            >
+              {team.league.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function MatchList() {
   const [fixtures, setFixtures] = useState([]);
   const [seasons, setSeasons] = useState([]);
@@ -176,69 +216,6 @@ function MatchList() {
     )
   }
 
-  const DropDownForTeam = () => {
-    const handleSelection = (team) => {
-      setSelectedTeam(team);
-      setIsOpen(false);
-      console.log('Selected team:', team.league);
-    };
-
-    const Row = ({ index, style }) => (
-      <Menu.Item key={index}>
-        {({ active }) => (
-          <button
-            style={style}
-            className={classNames(
-              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-              'block px-4 py-2 text-sm w-full text-left'
-            )}
-            onClick={() => handleSelection(teams[index])}
-          >
-            {teams[index].league.name}
-          </button>
-        )}
-      </Menu.Item>
-    );
-
-    return (
-      <Menu as="div" className="relative inline-block text-left">
-        <div>
-          <Menu.Button
-            className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {loading ? 'Loading...' : selectedTeam.league.name}
-            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
-          </Menu.Button>
-        </div>
-
-        <Transition
-          as={Fragment}
-          show={isOpen}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="py-1">
-              <List
-                height={300}
-                itemCount={teams.length}
-                itemSize={35}
-                width="100%"
-              >
-                {Row}
-              </List>
-            </div>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    )
-  }
-
   const handleSearch = (item) => {
     const lowerCaseQuery = searchQuery.toLowerCase();
     const lowerCaseDate = searchDate.toLowerCase();
@@ -253,7 +230,7 @@ function MatchList() {
   return (
     <div className="p-4">
       <div className="flex justify-between mb-4">
-        <DropDownForTeam />
+        <LeagueSearchBar teams={teams} onSelectTeam={setSelectedTeam} />
         <DropDownForSeason />
       </div>
       <div className="flex space-x-4 mb-4">
