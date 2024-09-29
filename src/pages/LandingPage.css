@@ -1,0 +1,35 @@
+/* LandingPage.css */
+.lp-calendar {
+    border: none !important;
+  }
+  
+  .lp-calendar .react-calendar__tile {
+    color: #ffffff;
+    background-color: #d6b14a;
+  }
+  
+  .lp-calendar .react-calendar__tile:enabled:hover,
+  .lp-calendar .react-calendar__tile:enabled:focus {
+    background-color: #e07532;
+  }
+  
+  .lp-calendar .react-calendar__tile--active {
+    background-color: #ffffff;
+  }
+  
+  .lp-calendar .react-calendar__month-view__days__day--weekend {
+    color: #cb4e4e;
+  }
+  
+  .lp-calendar .react-calendar__navigation button {
+    color: #ffffff;
+  }
+  
+  .lp-calendar .react-calendar__navigation button:enabled:hover,
+  .lp-calendar .react-calendar__navigation button:enabled:focus {
+    background-color: #e4b349;
+  }
+  
+  .lp-calendar .react-calendar__month-view__weekdays__weekday {
+    color: #e7a963;
+  }

@@ -2,21 +2,21 @@ import { useEffect, useState, Fragment } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { getAllFixtures } from "../services/apiFixtures";
-import { Button, Menu, Transition } from '@headlessui/react';
+import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { FixedSizeList as List } from 'react-window';
 import axios from "axios";
+import './LandingPage.css';
 
 function LandingPage() {
-  const [loading, setLoading] = useState(true); // Initialize with true to show loading state
-  const [matches, setMatches] = useState([]); // Initialize as an empty array
+  const [loading, setLoading] = useState(true);
+  const [matches, setMatches] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState("2024");
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState({ league: { id: "140", name: "La Liga" } });
   const [isOpen, setIsOpen] = useState(false);
 
-  // Function to find a match on a specific date
   const matchOnDate = (date) => {
     return matches.find(match =>
       match.date.getDate() === date.getDate() &&
@@ -25,13 +25,12 @@ function LandingPage() {
     );
   };
 
-  // Function to render content on calendar tiles
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
       const match = matchOnDate(date);
       if (match) {
         return (
-          <div className="p-1 bg-blue-500 text-white text-xs rounded">
+          <div className="lp-match-tile p-1 bg-indigo-600 text-white text-xs rounded">
             {match.match}
           </div>
         );
@@ -40,12 +39,10 @@ function LandingPage() {
     return null;
   };
 
-  // Fetch fixtures data on component mount
   useEffect(() => {
     (async () => {
       try {
         const response = await getAllFixtures(selectedTeam.league.id, selectedSeason);
-        
         console.log("fixtures", response.data);
         setMatches(response.data.response.map((data) => ({
           date: new Date(data.fixture.date),
@@ -54,23 +51,20 @@ function LandingPage() {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false); // Set loading to false after fetching data
+        setLoading(false);
       }
     })();
   }, [selectedTeam, selectedSeason]);
 
   useEffect(() => {
-    // Fetch data from the API endpoint
     const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWIxODMzMGY3NjI4OGM2M2FkNGE2ZWUiLCJpYXQiOjE3MDY0NTg1ODkzODR9.69Zt6CPDWgcRR4CW5zzXqst8DcFbQwoN_Md4BgQWVvk";
 
     fetch('https://apis.sports-trading-ai-predictions.com/league-seasons', {
-      headers: {
-        'Authorization': `${token}`,
-      }
+      headers: { 'Authorization': `${token}` }
     })
       .then(response => response.json())
       .then(data => {
-        setSeasons(data.data.response.reverse()); // Reverse the array to show the latest season first
+        setSeasons(data.data.response.reverse());
         setLoading(false);
       })
       .catch(error => {
@@ -112,8 +106,8 @@ function LandingPage() {
           <button
             style={style}
             className={classNames(
-              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-              'block px-4 py-2 text-sm w-full text-left'
+              active ? 'bg-indigo-100 text-indigo-900' : 'text-indigo-200',
+              'lp-dropdown-item block px-4 py-2 text-sm w-full text-left'
             )}
             onClick={() => handleSelection(teams[index])}
           >
@@ -124,14 +118,14 @@ function LandingPage() {
     );
 
     return (
-      <Menu as="div" className="relative inline-block text-left">
+      <Menu as="div" className="lp-dropdown relative inline-block text-left">
         <div>
           <Menu.Button
-            className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            className="lp-dropdown-button inline-flex w-full justify-center gap-x-1.5 rounded-md bg-indigo-800 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-indigo-500 hover:bg-indigo-700"
             onClick={() => setIsOpen(!isOpen)}
           >
             {loading ? 'Loading...' : selectedTeam.league.name}
-            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+            <ChevronDownIcon className="-mr-1 h-5 w-5 text-indigo-200" aria-hidden="true" />
           </Menu.Button>
         </div>
 
@@ -145,7 +139,7 @@ function LandingPage() {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="lp-dropdown-menu absolute left-0 z-10 mt-2 w-56 origin-top-right divide-y divide-indigo-700 rounded-md bg-indigo-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
               <List
                 height={300}
@@ -163,16 +157,16 @@ function LandingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black">
-      <div className="pt-40 flex flex-col items-center">
-        <div className="flex justify-end w-full max-w-4xl">
+    <main className="lp-main min-h-screen bg-gray-900">
+      <div className="lp-container pt-40 flex flex-col items-center">
+        <div className="lp-dropdown-container flex justify-end w-full max-w-4xl">
           <DropDownForTeam />
         </div>
-        <div className="w-full max-w-4xl mt-4">
-          <h1 className="text-2xl font-bold mb-4 text-center">Match Calendar</h1>
+        <div className="lp-calendar-container w-full max-w-4xl mt-4">
+          <h1 className="lp-title text-3xl font-bold mb-6 text-center text-indigo-300">Match Calendar</h1>
           <Calendar
             tileContent={tileContent}
-            className="border rounded-lg shadow-lg w-full bg-white"
+            className="lp-calendar border-0 rounded-lg shadow-xl w-full bg-indigo-900 text-indigo-100"
           />
         </div>
       </div>
