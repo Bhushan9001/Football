@@ -53,7 +53,7 @@ function LeagueStandings({ standingsData }) {
   };
 
   const formBodyTemplate = (rowData) => {
-    console.log(rowData)
+    // console.log(rowData)
     return (
       
       <div className="flex justify-center gap-1 rounded-[inherit] py-2 text-center text-sm text-white">

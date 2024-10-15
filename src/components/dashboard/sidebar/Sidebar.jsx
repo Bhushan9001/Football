@@ -40,6 +40,34 @@ function Sidebar({ setMinimizeSidebar }) {
             Match List
           </NavLink>
         </li>
+        {/* <li>
+          <NavLink
+            onClick={setMinimizeSidebar}
+            to="trading-strategies"
+            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+          >
+            Trading Strategies
+          </NavLink>
+        </li> */}
+        {/* <li>
+          <NavLink
+            onClick={setMinimizeSidebar}
+            to="calculators-section"
+            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+          >
+            Calculators
+          </NavLink>
+        </li> */}
+        <li>
+          <NavLink
+            onClick={setMinimizeSidebar}
+            to="Predictions-section"
+            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+          >
+            Predictions
+          </NavLink>
+        </li>
+
         {/* ========== SPECIAL LINKS START ========== */}
         {toggleLinksVisibility ? (
           <>

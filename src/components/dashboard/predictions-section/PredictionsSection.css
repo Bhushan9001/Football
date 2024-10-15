@@ -1,0 +1,137 @@
+.ps-predictions-section {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ps-title {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .ps-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  
+  .ps-label {
+    font-weight: bold;
+    color: #34495e;
+  }
+  
+  .ps-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+  }
+  
+  .ps-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .ps-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .ps-loading, .ps-error, .ps-no-data {
+    text-align: center;
+    margin: 20px 0;
+    font-style: italic;
+  }
+  
+  .ps-error {
+    color: #e74c3c;
+  }
+  
+  .ps-results {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ps-data-selector {
+    margin-bottom: 20px;
+  }
+  
+  .ps-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: white;
+  }
+  
+  .ps-data-container {
+    margin-top: 20px;
+  }
+  
+  .ps-data-container h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .ps-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .ps-table th, .ps-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  
+  .ps-table th {
+    background-color: #f2f6f8;
+    font-weight: bold;
+    color: #34495e;
+  }
+  
+  .ps-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .ps-table tr:hover {
+    background-color: #ecf0f1;
+  }
+  
+  .ps-advice {
+    background-color: #e8f4fd;
+    padding: 15px;
+    border-radius: 4px;
+    font-style: italic;
+    color: #2980b9;
+  }
+  
+  @media (max-width: 600px) {
+    .ps-input-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .ps-input, .ps-button {
+      width: 100%;
+    }
+  
+    .ps-table th, .ps-table td {
+      padding: 8px;
+    }
+  }
