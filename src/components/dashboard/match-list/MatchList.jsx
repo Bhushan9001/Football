@@ -75,7 +75,7 @@ function MatchList() {
   );
 
   const analyzeBodyTemplate = (rowData) => {
-    const urlPrefix = `fixture=${rowData.fixture.id}&home=${rowData.teams.home.id}&away=${rowData.teams.away.id}&season=2023&league=${rowData.league.id}`;
+    const urlPrefix = `fixture=${rowData.fixture.id}&home=${rowData.teams.home.id}&away=${rowData.teams.away.id}&season=${selectedSeason}&league=${rowData.league.id}`;
 
     return (
       <div className="flex gap-1">

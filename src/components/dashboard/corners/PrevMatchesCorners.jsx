@@ -1,4 +1,4 @@
-function PrevMatchesCorners() {
+function PrevMatchesCorners({data}) {
   return (
     <section className="mb-10 rounded-bl-lg rounded-br-lg px-4 pb-4 pt-1 text-center shadow-[0_.5rem_1rem_rgba(0,0,0,.15)]">
       <h3 className="mb-2 font-medium">
@@ -7,7 +7,7 @@ function PrevMatchesCorners() {
       <div className="grid grid-cols-2">
         <div>
           <h4 className="rounded-xl bg-dbPrimary py-1 text-white">
-            Maccabi Petah Tikva
+            {data.home.name}
           </h4>
           {/* FOR MOBILE */}
           <div className="md:hidden">
@@ -16,7 +16,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -24,7 +24,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -35,7 +35,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -43,7 +43,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -55,9 +55,9 @@ function PrevMatchesCorners() {
             <div className="flex items-center">
               <div className="flex-grow-[2] border-r-[1px] border-gray-400">
                 <div className="py-2">
-                  <span>Maccabi Haifa</span>
+                  <span>{data.league.name}</span>
                   <span>-</span>
-                  <span>Maccabi Petah Tikva</span>
+                  <span>{data.home.name}</span>
                 </div>
               </div>
               <div className="flex-grow border-r-[1px] border-gray-400">
@@ -71,9 +71,9 @@ function PrevMatchesCorners() {
             <div className="flex items-center">
               <div className="flex-grow-[2] border-r-[1px] border-gray-400">
                 <div className="rounded-2xl bg-[#efefef] py-2">
-                  <span>Maccabi Haifa</span>
+                  <span>{data.league.name}</span>
                   <span>-</span>
-                  <span>Maccabi Petah Tikva</span>
+                  <span>{data.home.name}</span>
                 </div>
               </div>
               <div className="flex-grow border-r-[1px] border-gray-400">
@@ -87,9 +87,9 @@ function PrevMatchesCorners() {
             <div className="flex items-center">
               <div className="flex-grow-[2] border-r-[1px] border-gray-400">
                 <div className="py-2">
-                  <span>Maccabi Haifa</span>
+                  <span>{data.league.name}</span>
                   <span>-</span>
-                  <span>Maccabi Petah Tikva</span>
+                  <span>{data.home.name}</span>
                 </div>
               </div>
               <div className="flex-grow border-r-[1px] border-gray-400">
@@ -104,7 +104,7 @@ function PrevMatchesCorners() {
         </div>
         <div>
           <h4 className="rounded-xl bg-dbSecondary py-1 text-white">
-            Maccabi Petah Tikva
+            {data.away.name}
           </h4>
           {/* FOR MOBILE */}
           <div className="md:hidden">
@@ -113,7 +113,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -121,7 +121,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -132,7 +132,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -140,7 +140,7 @@ function PrevMatchesCorners() {
               <div>
                 <div className="flex">
                   <div className="flex-1 border-r-[1px] border-gray-400 text-start">
-                    <span className="inline-block py-1">Maccabi Haifa</span>
+                    <span className="inline-block py-1">{data.league.name}</span>
                   </div>
                   <span className="max-w-[20%] flex-1 px-2 py-1">0</span>
                 </div>
@@ -152,9 +152,9 @@ function PrevMatchesCorners() {
             <div className="flex items-center">
               <div className="flex-grow-[2] border-r-[1px] border-gray-400">
                 <div className="py-2">
-                  <span>Maccabi Haifa</span>
+                  <span>{data.league.name}</span>
                   <span>-</span>
-                  <span>Maccabi Petah Tikva</span>
+                  <span>{data.away.name}</span>
                 </div>
               </div>
               <div className="flex-grow border-r-[1px] border-gray-400">
@@ -168,9 +168,9 @@ function PrevMatchesCorners() {
             <div className="flex items-center">
               <div className="flex-grow-[2] border-r-[1px] border-gray-400">
                 <div className="rounded-2xl bg-[#efefef] py-2">
-                  <span>Maccabi Haifa</span>
+                  <span>{data.league.name}</span>
                   <span>-</span>
-                  <span>Maccabi Petah Tikva</span>
+                  <span>{data.away.name}</span>
                 </div>
               </div>
               <div className="flex-grow border-r-[1px] border-gray-400">
@@ -184,9 +184,9 @@ function PrevMatchesCorners() {
             <div className="flex items-center">
               <div className="flex-grow-[2] border-r-[1px] border-gray-400">
                 <div className="py-2">
-                  <span>Maccabi Haifa</span>
+                  <span>{data.league.name}</span>
                   <span>-</span>
-                  <span>Maccabi Petah Tikva</span>
+                  <span>{data.away.name}</span>
                 </div>
               </div>
               <div className="flex-grow border-r-[1px] border-gray-400">

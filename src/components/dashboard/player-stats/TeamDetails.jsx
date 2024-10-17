@@ -6,7 +6,7 @@ import { getTeamPlayers } from "../../../services/apiPlayers";
 import Loader from "../../../ui/Loader";
 import { playerArray } from "../favourite-players/favouritePlayerData";
 
-function TeamDetails({ teamId, seasonId ,  }) {
+function TeamDetails({ teamId, seasonId,}) {
   const [teamDetails, setTeamDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   

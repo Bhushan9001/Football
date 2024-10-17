@@ -21,6 +21,7 @@ function Corners() {
   const awayTeamId = searchParms.get("away");
   const leagueId = searchParms.get("league");
   const fixtureId = searchParms.get("fixture");
+  const season = searchParms.get("season");
 
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +31,7 @@ function Corners() {
         const [homeResponse, awayResponse, fixturesResponse] = await Promise.all([
           getFixtureStats(homeTeamId, fixtureId),
           getFixtureStats(awayTeamId, fixtureId),
-          getAllFixtures(leagueId, "2023"),
+          getAllFixtures(leagueId, season),
         ]);
 
         const homeCorners = homeResponse.data.response[0]?.statistics?.find(
@@ -65,12 +66,12 @@ function Corners() {
   }, [homeTeamId, awayTeamId, leagueId, fixtureId]);
 
   if (loading) return <Loader />;
-
+  
   return (
     <>
       <Overview data={{ home: homeTeamData, away: awayTeamData, league: leagueData }} />
       <CornersOverUnderAnalysis />
-      <PrevMatchesCorners />
+      <PrevMatchesCorners data={{home: homeTeamData, away: awayTeamData,league: leagueData }}/>
       <CornersOverUnderPrediction />
       <CornersPrediction />
       <CorrectCornersAnalysisPrediction />

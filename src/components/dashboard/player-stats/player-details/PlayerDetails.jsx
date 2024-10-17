@@ -37,8 +37,9 @@ function PlayerDetails() {
     (async () => {
       try {
         setLoading(true);
-
+       
         const response = await getTeamPlayerDetails(playerId, seasonId);
+        console.log(response);
 
         setPlayerDetails(response.data.response[0]);
 
@@ -46,6 +47,7 @@ function PlayerDetails() {
 
         if (!selectedLeagueId) {
           // SET the first league as the current
+          console.log( response.data)
           setSelectedLeagueId(
             response.data.response[0].statistics[0].league.id,
           );

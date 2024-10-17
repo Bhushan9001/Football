@@ -7,7 +7,10 @@ function HomePlayerStats() {
 
   const team = searchParams.get("home");
 
-  return <TeamDetails leagueId={league} teamId={team} />;
+  const season= searchParams.get("season") ||"2024"
+
+
+  return <TeamDetails seasonId={season}  teamId={team} />;
 }
 
 export default HomePlayerStats;

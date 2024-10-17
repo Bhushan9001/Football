@@ -24,6 +24,7 @@ export const getTeamPlayers = async (teamId) => {
 
 export const getTeamPlayerDetails = async (playerId, seasonId) => {
   try {
+    console.log(playerId,seasonId);
     const response = await axios.post(
       `${API_BASE_URL}/players`,
       {

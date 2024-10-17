@@ -1,4 +1,5 @@
 function Overview({ data }) {
+  console.log(data);
   return (
     <>
       <section className="sticky top-0 z-50">
