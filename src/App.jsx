@@ -49,6 +49,7 @@ import GameStatistics from "./components/dashboard/game-statistics/GameStatistic
 import OddsVisualizer from "./components/dashboard/odds/OddsData";
 import Odds from "./components/dashboard/odds/Odds";
 import PredictionsSection from "./components/dashboard/predictions-section/PredictionsSection";
+import GameStrategies from "./components/dashboard/game-strategies/GameStrategies";
 
 function App() {
   return (
@@ -91,6 +92,8 @@ function App() {
                 element={<FavouriteWatchList />}
               />
               <Route path="predictions-section" element={<PredictionsSection/>} />
+              <Route path="calculator" element={<CalculatorV1 />} />
+              <Route path="game-strategies" element={<GameStrategies/>} />
               {/* <Route
                 path="player-stats/:Country?/:ls?/:tid?"
                 element={<PlayerStats />}

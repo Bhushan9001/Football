@@ -3,20 +3,13 @@ import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 function Sidebar({ setMinimizeSidebar }) {
-  // Use this state variable for showing/hiding some sidebar links
   const [toggleLinksVisibility, setToggleLinksVisibility] = useState(false);
-
   const location = useLocation();
-
   const queryParams = new URLSearchParams(location.search);
-
   const queryString = queryParams.toString();
 
   useEffect(() => {
     const urlParts = location.pathname.split("/");
-
-    // Check if any of the specified strings exist in urlParts.
-    // "Special" in a sense they will not be visible all the times on sidebar.
     const hasSpecialStrings = [
       "panel-board",
       "corners",
@@ -29,8 +22,9 @@ function Sidebar({ setMinimizeSidebar }) {
   }, [location.pathname]);
 
   return (
-    <nav className="py-16 pl-4">
-      <ul>
+    <nav className="h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent py-16 pl-4">
+      <ul className="pr-4">
+        {/* Rest of your navigation links remain the same */}
         <li>
           <NavLink
             onClick={setMinimizeSidebar}
@@ -40,24 +34,6 @@ function Sidebar({ setMinimizeSidebar }) {
             Match List
           </NavLink>
         </li>
-        {/* <li>
-          <NavLink
-            onClick={setMinimizeSidebar}
-            to="trading-strategies"
-            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
-          >
-            Trading Strategies
-          </NavLink>
-        </li> */}
-        {/* <li>
-          <NavLink
-            onClick={setMinimizeSidebar}
-            to="calculators-section"
-            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
-          >
-            Calculators
-          </NavLink>
-        </li> */}
         <li>
           <NavLink
             onClick={setMinimizeSidebar}
@@ -67,8 +43,25 @@ function Sidebar({ setMinimizeSidebar }) {
             Predictions
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            onClick={setMinimizeSidebar}
+            to="calculator"
+            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+          >
+            Calculators
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            onClick={setMinimizeSidebar}
+            to="game-strategies"
+            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+          >
+            Game Strategies
+          </NavLink>
+        </li>
 
-        {/* ========== SPECIAL LINKS START ========== */}
         {toggleLinksVisibility ? (
           <>
             <li>
@@ -149,7 +142,6 @@ function Sidebar({ setMinimizeSidebar }) {
                 Favourite Leagues
               </NavLink>
             </li>
-
             <li>
               <NavLink
                 onClick={setMinimizeSidebar}
@@ -161,8 +153,6 @@ function Sidebar({ setMinimizeSidebar }) {
             </li>
           </>
         )}
-
-        {/* ========== SPECIAL LINKS END ========== */}
 
         {!toggleLinksVisibility && (
           <li>
