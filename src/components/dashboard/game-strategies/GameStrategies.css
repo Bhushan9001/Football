@@ -1,0 +1,197 @@
+.gameStrategies__container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .gameStrategies__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .gameStrategies__title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #2d3748;
+  }
+  
+  .gameStrategies__downloadBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .gameStrategies__downloadBtn:hover {
+    background-color: #2c5282;
+  }
+  
+  .gameStrategies__content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    min-height: 600px;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gameStrategies__sidebar {
+    padding: 1rem;
+    background-color: #f7fafc;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .gameStrategies__strategyBtn {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #4a5568;
+    font-size: 0.875rem;
+  }
+  
+  .gameStrategies__strategyBtn:hover {
+    background-color: #edf2f7;
+    color: #2d3748;
+  }
+  
+  .gameStrategies__strategyBtn.active {
+    background-color: #3182ce;
+    color: white;
+  }
+  
+  .gameStrategies__mainContent {
+    padding: 2rem;
+  }
+  
+  .gameStrategies__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #718096;
+    font-size: 1.125rem;
+  }
+  
+  .strategyContent__container {
+    height: 100%;
+  }
+  
+  .strategyContent__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  
+  .strategyContent__body {
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .strategyContent__header {
+    margin-bottom: 2rem;
+  }
+  
+  .strategyContent__meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .strategyContent__tag {
+    background-color: #e2e8f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    color: #4a5568;
+  }
+  
+  .strategyContent__section {
+    margin-bottom: 2rem;
+  }
+  
+  .strategyContent__sectionTitle {
+    color: #2d3748;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .strategyContent__text {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .strategyContent__bulletList {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: #4a5568;
+  }
+  
+  .strategyContent__bulletItem {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .strategyContent__titleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .strategyContent__languageToggle {
+    padding: 0.5rem 1rem;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  .strategyContent__languageToggle:hover {
+    background-color: #34495e;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .gameStrategies__content {
+      grid-template-columns: 1fr;
+    }
+  
+    .gameStrategies__header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+  
+    .gameStrategies__sidebar {
+      border-right: none;
+      border-bottom: 1px solid #e2e8f0;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .gameStrategies__container {
+      padding: 1rem;
+    }
+  }
