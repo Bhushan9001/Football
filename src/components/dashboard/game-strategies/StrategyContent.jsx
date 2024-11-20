@@ -1,6 +1,6 @@
 // StrategyContent.jsx
 import React, { useState } from 'react';
-import { strategyData } from './strategyData';
+import { strategyData } from './StrategyData.js';
 
 const StrategyContent = ({ strategy }) => {
   const [language, setLanguage] = useState('en');
