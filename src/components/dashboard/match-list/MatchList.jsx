@@ -111,6 +111,10 @@ function MatchList() {
         <Link to={`/dashboard/game-statistics?${urlPrefix}`}>
           <i className="bi bi-bar-chart-line text-base text-dbPrimary transition hover:text-dbSecondary"></i>
         </Link>
+        {/* Prediction-Section */}
+        <Link to={`/dashboard/predictions-section?${urlPrefix}`}>
+          <i className="bi bi-lightbulb text-base text-dbPrimary transition hover:text-dbSecondary"></i>
+        </Link>
       </div>
     );
   };
