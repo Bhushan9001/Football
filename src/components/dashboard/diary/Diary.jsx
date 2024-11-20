@@ -1,4 +1,4 @@
-import {useState,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import FavouriteAllTimeStats from "./FavouriteAllTimeStats";
 import MyPicks from "./MyPicks";
 import RecentForm from "./RecentForm";
@@ -19,20 +19,24 @@ function Diary() {
 
   const fixtureId = searchParms.get("fixture");
 
-  const [loading ,setLoading] = useState(true);
-  const [teams , setTeams] = useState({});
+  const season = searchParms.get("season");
+
+  const league = searchParms.get("league");
+
+  const [loading, setLoading] = useState(true);
+  const [teams, setTeams] = useState({});
   const [matchOutComePredictions, setMatchOutComePredictions] = useState([]);
   useEffect(() => {
     (async () => {
       try {
         const matchOutComePredictionsResponse =
-        await getMatchOutComePredictions(fixtureId);
+          await getMatchOutComePredictions(fixtureId);
 
         setMatchOutComePredictions(
-        matchOutComePredictionsResponse.response[0].predictions
-      );
+          matchOutComePredictionsResponse.response[0].predictions
+        );
         const response = await getFixtureHead2HeadStats(homeTeamId, awayTeamId);
-        
+
         setTeams(response.data.response[0].teams);
       } catch (error) {
         console.error(error);
@@ -45,11 +49,31 @@ function Diary() {
   return (
     <div className="grid md:grid-cols-2 gap-6 items-start">
       <div>
-        <TotalStats />
-        <RecentForm />
+        <TotalStats
+          
+          season={season}
+          team={homeTeamId}
+          league={league}
+          
+          date="2024-11-15"
+        />
+        <RecentForm
+          title={"Home team"}
+          season={season}
+          team={homeTeamId}
+          league={league}
+          date="2024-11-15"
+        />
+        <RecentForm
+           title={"Away team"}
+          season={season}
+          team={awayTeamId}
+          league={league}
+          date="2024-11-15"
+        />
         <FavouriteAllTimeStats />
       </div>
-      {fixtureId?<MyPicks data = {teams} predictions = {matchOutComePredictions} />:<Loader/>}
+      {fixtureId ? <MyPicks data={teams} predictions={matchOutComePredictions} /> : <Loader />}
     </div>
   );
 }
