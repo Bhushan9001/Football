@@ -7,8 +7,12 @@ import Loader from "../../../ui/Loader";
 function LeaguesList() {
   const [leagues, setLeagues] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [favoriteLeagues, setFavoriteLeagues] = useState([]);
 
   useEffect(() => {
+    const savedLeagues = JSON.parse(localStorage.getItem('favoriteLeagues') || '[]');
+    setFavoriteLeagues(savedLeagues);
+
     (async () => {
       try {
         const response = await getAllLeagues();
@@ -21,6 +25,23 @@ function LeaguesList() {
       }
     })();
   }, []);
+
+  const handleAddLeague = (league) => {
+    const savedLeagues = JSON.parse(localStorage.getItem('favoriteLeagues') || '[]');
+    
+    const leagueExists = savedLeagues.some(
+      savedLeague => savedLeague.league.id === league.league.id
+    );
+
+    if (!leagueExists) {
+      const updatedLeagues = [...savedLeagues, league];
+      localStorage.setItem('favoriteLeagues', JSON.stringify(updatedLeagues));
+      setFavoriteLeagues(updatedLeagues);
+      toast.success('League added to favorites!');
+    } else {
+      toast.info('League already in favorites!');
+    }
+  };
   
   if (loading) return <Loader />;
 
@@ -43,7 +64,15 @@ function LeaguesList() {
           <h4 className="my-2 font-medium">
             {league.league.type} in {league.country.name}
           </h4>
-          
+          <button
+            onClick={(e) => {
+              e.preventDefault(); // Prevent Link navigation
+              handleAddLeague(league);
+            }}
+            className="mt-2 px-4 py-1 bg-dbPrimary text-white rounded hover:bg-dbSecondary transition"
+          >
+            Add to Favorites
+          </button>
         </Link>
       ))}
     </section>
