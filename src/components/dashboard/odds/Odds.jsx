@@ -27,6 +27,7 @@ function Odds() {
     try {
         const oddsList = await getOdds(season,fixtureId,league);
     setOdds(oddsList);
+    console.log(odds);
     } catch (error) {
         console.log(error)
     }finally{
