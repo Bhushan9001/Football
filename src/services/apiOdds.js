@@ -9,7 +9,7 @@ const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/odds`;
 export const getOdds = async (season_id,fixture,league) => {
     try {
 
-        const response = await axios.get(`https://v3.football.api-sports.io/?$season=2024&bet=1&bookmaker=6&fixture=${fixture}&league=${league}`,
+        const response = await axios.get(`https://v3.football.api-sports.io/?$season=${season_id}&bet=1&bookmaker=6&fixture=${fixture}&league=${league}`,
             {
                 headers:{
                     'Content-Type': 'application/json',
