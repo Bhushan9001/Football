@@ -45,11 +45,15 @@ import Verify from "./pages/Verify";
 import ScrollToTop from "./components/website/scrollToTop/ScrollToTop";
 import Calculator from "./components/website/calculator/Calculator";
 import CalculatorV1 from "./components/website/calculator-v1/CalculatorV1";
+import PoissonCalculator from "./components/website/PoissonCalculator";
+import KellyCalculator from "./components/website/KellyCalculator";
 import GameStatistics from "./components/dashboard/game-statistics/GameStatistics"; 
 import OddsVisualizer from "./components/dashboard/odds/OddsData";
 import Odds from "./components/dashboard/odds/Odds";
 import PredictionsSection from "./components/dashboard/predictions-section/PredictionsSection";
 import GameStrategies from "./components/dashboard/game-strategies/GameStrategies";
+import BettingCalculator from "./components/website/BettingCalculator";
+import SportsBettingCalculator from "./components/website/SportsBettingCalculator";
 
 function App() {
   return (
@@ -93,6 +97,12 @@ function App() {
               />
               <Route path="predictions-section" element={<PredictionsSection/>} />
               <Route path="calculator" element={<CalculatorV1 />} />
+              {/* New Routes */}
+              <Route path="poisson-calculator" element={<PoissonCalculator />} />
+              <Route path="kelly-calculator" element={<KellyCalculator />} />
+              <Route path="betting-calculator" element={<BettingCalculator />} />
+              <Route path="sports-betting-calculator" element={<SportsBettingCalculator />} />
+              
               <Route path="game-strategies" element={<GameStrategies/>} />
               {/* <Route
                 path="player-stats/:Country?/:ls?/:tid?"
