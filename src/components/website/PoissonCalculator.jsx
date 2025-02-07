@@ -40,14 +40,14 @@ function PoissonCalculator() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">Poisson Distribution Calculator</h1>
-      <div className="bg-green-600 rounded-lg shadow-lg p-6 text-white">
+    <div className="container mx-auto p-4 max-w-4xl">
+      <h1 className="text-4xl font-extrabold text-center mb-8 text-gray-800">Poisson Distribution Calculator</h1>
+      <div className="bg-white rounded-xl shadow-lg p-8">
         <form>
-          <div className="flex flex-col md:flex-row gap-6">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Home Team Stats */}
-            <div className="flex-1">
-              <h2 className="text-xl font-semibold mb-3">Home Team Stats</h2>
+            <div>
+              <h2 className="text-2xl font-bold mb-4 text-gray-700">Home Team Stats</h2>
               <input
                 type="number"
                 placeholder="Goals Scored"
@@ -55,7 +55,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsScored}
                 onChange={(e) => setHomeGoalsScored(e.target.value)}
-                className="w-full p-2 rounded mb-3 text-black"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -64,7 +64,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsConceded}
                 onChange={(e) => setHomeGoalsConceded(e.target.value)}
-                className="w-full p-2 rounded mb-3 text-black"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -73,13 +73,13 @@ function PoissonCalculator() {
                 step="1"
                 value={homeMatchesPlayed}
                 onChange={(e) => setHomeMatchesPlayed(e.target.value)}
-                className="w-full p-2 rounded mb-3 text-black"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
             </div>
 
             {/* Away Team Stats */}
-            <div className="flex-1">
-              <h2 className="text-xl font-semibold mb-3">Away Team Stats</h2>
+            <div>
+              <h2 className="text-2xl font-bold mb-4 text-gray-700">Away Team Stats</h2>
               <input
                 type="number"
                 placeholder="Goals Scored"
@@ -87,7 +87,7 @@ function PoissonCalculator() {
                 step="1"
                 value={awayGoalsScored}
                 onChange={(e) => setAwayGoalsScored(e.target.value)}
-                className="w-full p-2 rounded mb-3 text-black"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -96,7 +96,7 @@ function PoissonCalculator() {
                 step="1"
                 value={awayGoalsConceded}
                 onChange={(e) => setAwayGoalsConceded(e.target.value)}
-                className="w-full p-2 rounded mb-3 text-black"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -105,43 +105,43 @@ function PoissonCalculator() {
                 step="1"
                 value={awayMatchesPlayed}
                 onChange={(e) => setAwayMatchesPlayed(e.target.value)}
-                className="w-full p-2 rounded mb-3 text-black"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
             </div>
           </div>
           <button
             type="button"
             onClick={calculatePoisson}
-            className="mt-4 bg-white text-green-600 font-semibold py-2 px-4 rounded hover:bg-gray-200"
+            className="mt-6 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
           >
             Calculate Poisson Probabilities
           </button>
         </form>
 
         {/* Error Message */}
-        {error && <p className="mt-4 text-red-300">{error}</p>}
+        {error && <p className="mt-4 text-red-600 font-semibold">{error}</p>}
 
         {/* Results */}
         {results && (
-          <div id="poisson-results" className="mt-6 text-black bg-white rounded p-4">
-            <h2 className="text-2xl font-semibold mb-4">Poisson Probability Results</h2>
+          <div id="poisson-results" className="mt-8 text-gray-800 bg-gray-50 rounded-xl p-6 shadow-inner">
+            <h2 className="text-3xl font-bold mb-6 text-blue-700">Poisson Probability Results</h2>
 
             {/* 1X2 Probabilities Table */}
-            <div className="overflow-x-auto mb-6">
-              <table className="min-w-full border-collapse">
+            <div className="overflow-x-auto mb-8">
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border p-2">Outcome</th>
-                    <th className="border p-2">Fair Odds</th>
-                    <th className="border p-2">Probability (%)</th>
+                  <tr className="bg-blue-100">
+                    <th className="border border-blue-200 p-3 text-left">Outcome</th>
+                    <th className="border border-blue-200 p-3 text-left">Fair Odds</th>
+                    <th className="border border-blue-200 p-3 text-left">Probability (%)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {Object.entries(results['1X2_fair_odds']).map(([key, odds]) => (
-                    <tr key={key}>
-                      <td className="border p-2">{key}</td>
-                      <td className="border p-2">{odds}</td>
-                      <td className="border p-2">{results['1X2_probabilities'][key]}</td>
+                    <tr key={key} className="hover:bg-blue-50">
+                      <td className="border border-blue-200 p-3">{key}</td>
+                      <td className="border border-blue-200 p-3">{odds}</td>
+                      <td className="border border-blue-200 p-3">{results['1X2_probabilities'][key]}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -149,27 +149,27 @@ function PoissonCalculator() {
             </div>
 
             {/* Asian Handicap Probabilities Table */}
-            <div className="overflow-x-auto mb-6">
-              <table className="min-w-full border-collapse">
+            <div className="overflow-x-auto mb-8">
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border p-2">Handicap</th>
-                    <th className="border p-2">Win (%)</th>
-                    <th className="border p-2">Push (%)</th>
-                    <th className="border p-2">Lose (%)</th>
-                    <th className="border p-2">Fair Odds Win</th>
-                    <th className="border p-2">Fair Odds Lose</th>
+                  <tr className="bg-blue-100">
+                    <th className="border border-blue-200 p-3 text-left">Handicap</th>
+                    <th className="border border-blue-200 p-3 text-left">Win (%)</th>
+                    <th className="border border-blue-200 p-3 text-left">Push (%)</th>
+                    <th className="border border-blue-200 p-3 text-left">Lose (%)</th>
+                    <th className="border border-blue-200 p-3 text-left">Fair Odds Win</th>
+                    <th className="border border-blue-200 p-3 text-left">Fair Odds Lose</th>
                   </tr>
                 </thead>
                 <tbody>
                   {Object.entries(results['ah_probabilities']).map(([handicap, stats]) => (
-                    <tr key={handicap}>
-                      <td className="border p-2">{handicap}</td>
-                      <td className="border p-2">{stats.win_prob}</td>
-                      <td className="border p-2">{stats.push_prob}</td>
-                      <td className="border p-2">{stats.lose_prob}</td>
-                      <td className="border p-2">{stats.fair_odds_win}</td>
-                      <td className="border p-2">{stats.fair_odds_lose}</td>
+                    <tr key={handicap} className="hover:bg-blue-50">
+                      <td className="border border-blue-200 p-3">{handicap}</td>
+                      <td className="border border-blue-200 p-3">{stats.win_prob}</td>
+                      <td className="border border-blue-200 p-3">{stats.push_prob}</td>
+                      <td className="border border-blue-200 p-3">{stats.lose_prob}</td>
+                      <td className="border border-blue-200 p-3">{stats.fair_odds_win}</td>
+                      <td className="border border-blue-200 p-3">{stats.fair_odds_lose}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -177,21 +177,21 @@ function PoissonCalculator() {
             </div>
 
             {/* Over/Under Probabilities Table */}
-            <div className="overflow-x-auto mb-6">
-              <table className="min-w-full border-collapse">
+            <div className="overflow-x-auto mb-8">
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border p-2">Threshold</th>
-                    <th className="border p-2">Fair Odds</th>
-                    <th className="border p-2">Probability (%)</th>
+                  <tr className="bg-blue-100">
+                    <th className="border border-blue-200 p-3 text-left">Threshold</th>
+                    <th className="border border-blue-200 p-3 text-left">Fair Odds</th>
+                    <th className="border border-blue-200 p-3 text-left">Probability (%)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {Object.entries(results['over_under_fair_odds']).map(([key, odds]) => (
-                    <tr key={key}>
-                      <td className="border p-2">{key}</td>
-                      <td className="border p-2">{odds}</td>
-                      <td className="border p-2">{results['over_under_probabilities'][key]}</td>
+                    <tr key={key} className="hover:bg-blue-50">
+                      <td className="border border-blue-200 p-3">{key}</td>
+                      <td className="border border-blue-200 p-3">{odds}</td>
+                      <td className="border border-blue-200 p-3">{results['over_under_probabilities'][key]}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -200,20 +200,20 @@ function PoissonCalculator() {
 
             {/* Scoreline Probabilities Table */}
             <div className="overflow-x-auto">
-              <table className="min-w-full border-collapse">
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border p-2">Scoreline</th>
-                    <th className="border p-2">Fair Odds</th>
-                    <th className="border p-2">Probability</th>
+                  <tr className="bg-blue-100">
+                    <th className="border border-blue-200 p-3 text-left">Scoreline</th>
+                    <th className="border border-blue-200 p-3 text-left">Fair Odds</th>
+                    <th className="border border-blue-200 p-3 text-left">Probability</th>
                   </tr>
                 </thead>
                 <tbody>
                   {Object.entries(results['scoreline_fair_odds']).map(([scoreline, odds]) => (
-                    <tr key={scoreline}>
-                      <td className="border p-2">{scoreline}</td>
-                      <td className="border p-2">{odds}</td>
-                      <td className="border p-2">{results['scoreline_probabilities'][scoreline]}</td>
+                    <tr key={scoreline} className="hover:bg-blue-50">
+                      <td className="border border-blue-200 p-3">{scoreline}</td>
+                      <td className="border border-blue-200 p-3">{odds}</td>
+                      <td className="border border-blue-200 p-3">{results['scoreline_probabilities'][scoreline]}</td>
                     </tr>
                   ))}
                 </tbody>

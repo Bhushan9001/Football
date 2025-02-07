@@ -43,14 +43,71 @@ function Sidebar({ setMinimizeSidebar }) {
             Predictions
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            onClick={setMinimizeSidebar}
-            to="calculator"
-            className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+        <li className="relative group">
+          <button
+            className="inline-flex items-center justify-between w-full py-3 text-sm text-[#808080] transition hover:text-white"
           >
             Calculators
-          </NavLink>
+            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <ul className="absolute left-0 hidden pt-2 space-y-2 bg-gray-600 group-hover:block">
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
+                to="poisson-calculator"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Poisson Calculator
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
+                to="kelly-calculator"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Kelly Calculator
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
+                to="betting-calculator"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Betting Calculator
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
+                to="sports-betting-calculator"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Sports Betting Calculator
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
+                to="probability-calculator"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Calculate Probability
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
+                to="calculator-v2"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Probability Calculator
+              </NavLink>
+            </li>
+          </ul>
         </li>
         <li>
           <NavLink

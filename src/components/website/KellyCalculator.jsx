@@ -41,13 +41,13 @@ function KellyCalculator() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">Kelly Calculator</h1>
-      <div className="bg-blue-600 rounded-lg shadow-lg p-6 text-white">
+    <div className="container mx-auto p-4 max-w-4xl">
+      <h1 className="text-4xl font-extrabold text-center mb-8 text-gray-800">Kelly Calculator</h1>
+      <div className="bg-white rounded-xl shadow-lg p-8">
         <form>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block mb-2">Odds</label>
+              <label className="block mb-2 text-gray-700 font-semibold">Odds</label>
               <input
                 type="number"
                 placeholder="Odds"
@@ -55,11 +55,11 @@ function KellyCalculator() {
                 step="0.01"
                 value={odds}
                 onChange={(e) => setOdds(e.target.value)}
-                className="w-full p-2 rounded text-black"
+                className="w-full p-3 rounded-lg text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
             </div>
             <div>
-              <label className="block mb-2">Fair Odds</label>
+              <label className="block mb-2 text-gray-700 font-semibold">Fair Odds</label>
               <input
                 type="number"
                 placeholder="Fair Odds"
@@ -67,11 +67,11 @@ function KellyCalculator() {
                 step="0.01"
                 value={fairOdds}
                 onChange={(e) => setFairOdds(e.target.value)}
-                className="w-full p-2 rounded text-black"
+                className="w-full p-3 rounded-lg text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
             </div>
             <div>
-              <label className="block mb-2">Probability (%)</label>
+              <label className="block mb-2 text-gray-700 font-semibold">Probability (%)</label>
               <input
                 type="number"
                 placeholder="Probability (%)"
@@ -79,11 +79,11 @@ function KellyCalculator() {
                 step="0.01"
                 value={probability}
                 onChange={(e) => setProbability(e.target.value)}
-                className="w-full p-2 rounded text-black"
+                className="w-full p-3 rounded-lg text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
             </div>
             <div>
-              <label className="block mb-2">Bankroll</label>
+              <label className="block mb-2 text-gray-700 font-semibold">Bankroll</label>
               <input
                 type="number"
                 placeholder="Bankroll"
@@ -91,37 +91,37 @@ function KellyCalculator() {
                 step="1"
                 value={bankroll}
                 onChange={(e) => setBankroll(e.target.value)}
-                className="w-full p-2 rounded text-black"
+                className="w-full p-3 rounded-lg text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
             </div>
           </div>
           <button
             type="button"
             onClick={calculateKelly}
-            className="mt-4 bg-white text-blue-600 font-semibold py-2 px-4 rounded hover:bg-gray-200"
+            className="mt-6 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
           >
             Calculate Kelly Bet
           </button>
         </form>
 
         {/* Display error message if any */}
-        {error && <p className="mt-4 text-red-300">{error}</p>}
+        {error && <p className="mt-4 text-red-600 font-semibold">{error}</p>}
 
         {/* Display result if available */}
         {result && (
-          <div className="mt-6 text-black bg-white rounded p-4">
-            <h2 className="text-2xl font-semibold mb-4">Kelly Bet Calculation</h2>
-            <table className="min-w-full border-collapse">
+          <div className="mt-8 text-gray-800 bg-gray-50 rounded-xl p-6 shadow-inner">
+            <h2 className="text-3xl font-bold mb-6 text-blue-700">Kelly Bet Calculation</h2>
+            <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-gray-200">
-                  <th className="border p-2">Kelly Bet</th>
-                  <th className="border p-2">Kelly Fraction (%)</th>
+                <tr className="bg-blue-100">
+                  <th className="border border-blue-200 p-3 text-left">Kelly Bet</th>
+                  <th className="border border-blue-200 p-3 text-left">Kelly Fraction (%)</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="border p-2">{result.kelly_bet}</td>
-                  <td className="border p-2">{result.kelly_fraction}</td>
+                <tr className="hover:bg-blue-50">
+                  <td className="border border-blue-200 p-3">{result.kelly_bet}</td>
+                  <td className="border border-blue-200 p-3">{result.kelly_fraction}</td>
                 </tr>
               </tbody>
             </table>

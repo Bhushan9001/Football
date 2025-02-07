@@ -54,6 +54,8 @@ import PredictionsSection from "./components/dashboard/predictions-section/Predi
 import GameStrategies from "./components/dashboard/game-strategies/GameStrategies";
 import BettingCalculator from "./components/website/BettingCalculator";
 import SportsBettingCalculator from "./components/website/SportsBettingCalculator";
+import ProbabilityCalculator from "./components/website/ProbabilityCalculator";
+import CalculatorV2 from "./components/website/CalculatorV2";
 
 function App() {
   return (
@@ -102,6 +104,8 @@ function App() {
               <Route path="kelly-calculator" element={<KellyCalculator />} />
               <Route path="betting-calculator" element={<BettingCalculator />} />
               <Route path="sports-betting-calculator" element={<SportsBettingCalculator />} />
+              <Route path="probability-calculator" element={<ProbabilityCalculator/>} />
+              <Route path="calculator-v2" element={<CalculatorV2/>} />
               
               <Route path="game-strategies" element={<GameStrategies/>} />
               {/* <Route
