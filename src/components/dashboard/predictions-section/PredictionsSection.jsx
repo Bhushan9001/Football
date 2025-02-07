@@ -219,7 +219,7 @@ const searchParms = new URLSearchParams(location.search);
       
       <div className="mb-8">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <label htmlFor="fixture-id" className="text-gray-700 font-medium">
               Fixture ID:
             </label>
@@ -230,12 +230,12 @@ const searchParms = new URLSearchParams(location.search);
               onChange={(e) => setFixtureId(e.target.value)}
               className="border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
             />
-          </div>
+          </div> */}
           <button 
             onClick={fetchPredictions}
             className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
           >
-            Get Predictions
+            Get ML Predictions
           </button>
         </div>
       </div>
