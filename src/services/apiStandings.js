@@ -4,12 +4,12 @@ import { handleApiError } from "./handleApiError";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/standings`;
 
-export const getStandings = async (leagueId) => {
+export const getStandings = async (leagueId,season) => {
   try {
-    const currentYear = new Date().getFullYear();
+    // const currentYear = new Date().getFullYear();
     const response = await axios.post(
       API_BASE_URL,
-      { league_id: leagueId, season_id: currentYear },
+      { league_id: leagueId, season_id: season },
       {
         headers: getAuthorizationHeader(),
       },

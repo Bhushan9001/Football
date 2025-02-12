@@ -42,12 +42,12 @@ function PoissonCalculator() {
   return (
     <div className="container mx-auto p-4 max-w-4xl">
       <h1 className="text-4xl font-extrabold text-center mb-8 text-gray-800">Poisson Distribution Calculator</h1>
-      <div className="bg-white rounded-xl shadow-lg p-8">
+      <div className="bg-green-600 rounded-xl shadow-lg p-8">
         <form>
           <div className="grid md:grid-cols-2 gap-8">
             {/* Home Team Stats */}
             <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-700">Home Team Stats</h2>
+              <h2 className="text-2xl font-bold mb-4 text-white">Home Team Stats</h2>
               <input
                 type="number"
                 placeholder="Goals Scored"
@@ -55,7 +55,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsScored}
                 onChange={(e) => setHomeGoalsScored(e.target.value)}
-                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                className="w-full p-3 rounded-lg mb-4 text-white border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -64,7 +64,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsConceded}
                 onChange={(e) => setHomeGoalsConceded(e.target.value)}
-                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                className="w-full p-3 rounded-lg mb-4 text-white border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -79,7 +79,7 @@ function PoissonCalculator() {
 
             {/* Away Team Stats */}
             <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-700">Away Team Stats</h2>
+              <h2 className="text-2xl font-bold mb-4 text-white">Away Team Stats</h2>
               <input
                 type="number"
                 placeholder="Goals Scored"
@@ -112,7 +112,7 @@ function PoissonCalculator() {
           <button
             type="button"
             onClick={calculatePoisson}
-            className="mt-6 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
+            className="mt-6 bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
           >
             Calculate Poisson Probabilities
           </button>

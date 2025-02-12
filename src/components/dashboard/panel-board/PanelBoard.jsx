@@ -53,7 +53,8 @@ function PanelBoard() {
         const oddsList = await getOdds(season,fixtureId,league);
         setOdds(oddsList);
         
-        const leagueStandingsResponse = await getStandings(league, season);
+        const leagueStandingsResponse = await getStandings(league, "2024");
+        console.log(leagueStandingsResponse);
 
         setLeagueStandingsData(leagueStandingsResponse.response[0].league);
 

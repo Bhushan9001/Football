@@ -83,10 +83,10 @@ function Sidebar({ setMinimizeSidebar }) {
             <li>
               <NavLink
                 onClick={setMinimizeSidebar}
-                to="sports-betting-calculator"
+                to="sports-trading-betting-calculator"
                 className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
               >
-                Sports Betting Calculator
+                Sports Trading Betting Calculator
               </NavLink>
             </li>
             <li>
@@ -105,6 +105,15 @@ function Sidebar({ setMinimizeSidebar }) {
                 className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
               >
                 Probability Calculator
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
+                to="green-calculator"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Betting odds Calculator
               </NavLink>
             </li>
           </ul>

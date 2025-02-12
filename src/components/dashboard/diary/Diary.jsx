@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { getFixtureHead2HeadStats } from '../../../services/apiFixtures';
 import Loader from "../../../ui/Loader";
 import { getMatchOutComePredictions } from "../../../services/apiPredictions";
+import Odds from '../odds/Odds';
 
 function Diary() {
   const location = useLocation();
@@ -36,7 +37,7 @@ function Diary() {
           matchOutComePredictionsResponse.response[0].predictions
         );
         const response = await getFixtureHead2HeadStats(homeTeamId, awayTeamId);
-
+            console.log(response.data)
         setTeams(response.data.response[0].teams);
       } catch (error) {
         console.error(error);
@@ -73,7 +74,11 @@ function Diary() {
         />
         <FavouriteAllTimeStats />
       </div>
-      {fixtureId ? <MyPicks data={teams} predictions={matchOutComePredictions} /> : <Loader />}
+     <div>
+     {fixtureId ? <MyPicks data={teams} predictions={matchOutComePredictions} /> : <Loader />}
+     <Odds/>
+     </div>
+      
     </div>
   );
 }

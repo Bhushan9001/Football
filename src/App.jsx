@@ -53,9 +53,10 @@ import Odds from "./components/dashboard/odds/Odds";
 import PredictionsSection from "./components/dashboard/predictions-section/PredictionsSection";
 import GameStrategies from "./components/dashboard/game-strategies/GameStrategies";
 import BettingCalculator from "./components/website/BettingCalculator";
-import SportsBettingCalculator from "./components/website/SportsBettingCalculator";
+import SportsBettingCalculator from "./components/website/SportsTradingBettingCalculator";
 import ProbabilityCalculator from "./components/website/ProbabilityCalculator";
 import CalculatorV2 from "./components/website/CalculatorV2";
+import GreenBookCalculator from "./components/website/GreenBookCalculator";
 
 function App() {
   return (
@@ -103,9 +104,10 @@ function App() {
               <Route path="poisson-calculator" element={<PoissonCalculator />} />
               <Route path="kelly-calculator" element={<KellyCalculator />} />
               <Route path="betting-calculator" element={<BettingCalculator />} />
-              <Route path="sports-betting-calculator" element={<SportsBettingCalculator />} />
+              <Route path="sports-trading-betting-calculator" element={<SportsBettingCalculator />} />
               <Route path="probability-calculator" element={<ProbabilityCalculator/>} />
               <Route path="calculator-v2" element={<CalculatorV2/>} />
+              <Route path="green-calculator" element={<GreenBookCalculator/>} />
               
               <Route path="game-strategies" element={<GameStrategies/>} />
               {/* <Route

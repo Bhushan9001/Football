@@ -41,13 +41,13 @@ function KellyCalculator() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
-      <h1 className="text-4xl font-extrabold text-center mb-8 text-gray-800">Kelly Calculator</h1>
-      <div className="bg-white rounded-xl shadow-lg p-8">
+    <div className="container mx-auto p-4 max-w-4xl bg-white rounded-md">
+      <h1 className="text-4xl font-extrabold text-center mb-8 text-black">Kelly Calculator</h1>
+      <div className="bg-blue-500 rounded-xl  p-8">
         <form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block mb-2 text-gray-700 font-semibold">Odds</label>
+              <label className="block mb-2 text-white font-semibold">Odds</label>
               <input
                 type="number"
                 placeholder="Odds"
@@ -59,7 +59,7 @@ function KellyCalculator() {
               />
             </div>
             <div>
-              <label className="block mb-2 text-gray-700 font-semibold">Fair Odds</label>
+              <label className="block mb-2 text-white font-semibold">Fair Odds</label>
               <input
                 type="number"
                 placeholder="Fair Odds"
@@ -71,7 +71,7 @@ function KellyCalculator() {
               />
             </div>
             <div>
-              <label className="block mb-2 text-gray-700 font-semibold">Probability (%)</label>
+              <label className="block mb-2 text-white font-semibold">Probability (%)</label>
               <input
                 type="number"
                 placeholder="Probability (%)"
@@ -83,7 +83,7 @@ function KellyCalculator() {
               />
             </div>
             <div>
-              <label className="block mb-2 text-gray-700 font-semibold">Bankroll</label>
+              <label className="block mb-2 text-white font-semibold">Bankroll</label>
               <input
                 type="number"
                 placeholder="Bankroll"
@@ -98,7 +98,7 @@ function KellyCalculator() {
           <button
             type="button"
             onClick={calculateKelly}
-            className="mt-6 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
+            className="mt-6 bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
           >
             Calculate Kelly Bet
           </button>
