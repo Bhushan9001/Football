@@ -271,8 +271,8 @@ function Home() {
               src="/assets/img/website/home/Untitled_design-removebg-preview.png"
               className="ml-auto max-h-[891px] max-w-[230px] sm:max-w-[380px] xl:max-w-[480px]"
               alt=""
-              // srcSet="/assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1.png 1500w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-300x300.png 300w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-1024x1024.png 1024w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-150x150.png 150w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-768x768.png 768w"
-              // sizes="(max-width: 1500px) 100vw, 1500px"
+            // srcSet="/assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1.png 1500w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-300x300.png 300w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-1024x1024.png 1024w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-150x150.png 150w, /assets/img/website/home/euro-football-data-why-us-correct-ai-predictions-reversed-2-1-768x768.png 768w"
+            // sizes="(max-width: 1500px) 100vw, 1500px"
             />
           </div>
           <div className="relative bg-primary px-[10%] py-20 lg:w-[40%] lg:bg-transparent lg:p-[unset] lg:py-5">
@@ -387,25 +387,35 @@ function Home() {
                 Contact:
               </span>
               <a href="mailto:mailto:postmaster@sports-trading-ai-predictions.com">
-              postmaster@sports-trading-ai-predictions.com
+                postmaster@sports-trading-ai-predictions.com
               </a>
             </div>
             <div className="flex items-center gap-2">
-              <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
-                <i className="bi bi-tiktok text-xl font-bold"></i>
-              </span>
-              <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
-                <i className="bi bi-instagram text-xl font-bold"></i>
-              </span>
-              <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
-                <i className="bi bi-facebook text-xl font-bold"></i>
-              </span>
-              <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
-                <i className="bi bi-youtube text-xl font-bold"></i>
-              </span>
-              <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
-                <i className="bi bi-twitter text-xl font-bold"></i>
-              </span>
+              <a href="https://www.tiktok.com/sportstrading251 " target="_blank" rel="noopener noreferrer">
+                <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
+                  <i className="bi bi-tiktok text-xl font-bold"></i>
+                </span>
+              </a>
+              <a href="https://www.instagram.com/sportstradingaiprediction" target="_blank" rel="noopener noreferrer">
+                <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
+                  <i className="bi bi-instagram text-xl font-bold"></i>
+                </span>
+              </a>
+              <a href="https://www.facebook.com/groups/169172370493395" target="_blank" rel="noopener noreferrer">
+                <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
+                  <i className="bi bi-facebook text-xl font-bold"></i>
+                </span>
+              </a>
+              <a href="https://www.youtube.com/@SportsTrading251" target="_blank" rel="noopener noreferrer">
+                <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
+                  <i className="bi bi-youtube text-xl font-bold"></i>
+                </span>
+              </a>
+              <a href="www.sports-trading-ai-predictions.com" target="_blank" rel="noopener noreferrer">
+                <span className="flex h-14 w-14 items-center justify-center rounded-md bg-primary">
+                  <i className="bi bi-twitter text-xl font-bold"></i>
+                </span>
+              </a>
             </div>
           </div>
         </div>

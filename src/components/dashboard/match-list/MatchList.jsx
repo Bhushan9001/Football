@@ -36,13 +36,18 @@ function LeagueSearchBar({ teams, onSelectTeam }) {
           {filteredLeagues.map((team, index) => (
             <div
               key={index}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
+              className="p-2 hover:bg-gray-100 cursor-pointer flex items-center"
               onClick={() => {
                 onSelectTeam(team);
                 setLeagueSearchQuery("");
               }}
             >
-              {team.league.name}
+              <img 
+                src={team.league.logo} 
+                alt={team.league.name} 
+                className="w-6 h-6 mr-2"
+              />
+              <span>{team.league.name}</span>
             </div>
           ))}
         </div>
@@ -134,7 +139,8 @@ function MatchList() {
   }, [selectedTeam, selectedSeason]);
 
   useEffect(() => {
-    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWIxODMzMGY3NjI4OGM2M2FkNGE2ZWUiLCJpYXQiOjE3MDY0NTg1ODkzODR9.69Zt6CPDWgcRR4CW5zzXqst8DcFbQwoN_Md4BgQWVvk";
+    const token =localStorage.getItem("token")
+    // const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWIxODMzMGY3NjI4OGM2M2FkNGE2ZWUiLCJpYXQiOjE3MDY0NTg1ODkzODR9.69Zt6CPDWgcRR4CW5zzXqst8DcFbQwoN_Md4BgQWVvk";
 
     fetch('https://apis.sports-trading-ai-predictions.com/league-seasons',{
       headers: {
