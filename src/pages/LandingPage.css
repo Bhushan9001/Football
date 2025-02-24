@@ -12,7 +12,6 @@
   .lp-calendar .react-calendar__tile:enabled:focus {
     background-color: #e07532;
   }
-  
   .lp-calendar .react-calendar__tile--active {
     background-color: #ffffff;
   }
