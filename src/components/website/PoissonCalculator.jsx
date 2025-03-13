@@ -27,7 +27,7 @@ function PoissonCalculator() {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/poisson-predictor', data, {
+      const response = await axios.post('http://16.16.10.60:5000/poisson-predictor', data, {
         headers: { 'Content-Type': 'application/json' },
       });
       console.log(response);

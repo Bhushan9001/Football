@@ -40,7 +40,7 @@ const CombinedCalculator = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/poisson-predictor",
+        "http://16.16.10.60:5000/poisson-predictor",
         data,
         {
           headers: { "Content-Type": "application/json" },
@@ -78,7 +78,7 @@ const CombinedCalculator = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/kelly-calculator",
+        "http://16.16.10.60:5000/kelly-calculator",
         data,
         {
           headers: { "Content-Type": "application/json" },
