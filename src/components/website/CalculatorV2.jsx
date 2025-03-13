@@ -34,7 +34,7 @@ const CalculatorV2 = () => {
         setResult(null);
     
         try {
-          const response = await axios.post('http://16.16.10.60:5000/calculate', formData);
+          const response = await axios.post('http://127.0.0.1:5000/calculate', formData);
           setResult(response.data);
         } catch (err) {
           setError('An error occurred while calculating the probability.');

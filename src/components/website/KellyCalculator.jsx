@@ -1,3 +1,4 @@
+// Kelly Calculator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -29,7 +30,7 @@ function KellyCalculator() {
     };
 
     try {
-      const response = await axios.post('http://16.16.10.60:5000/kelly-calculator', data, {
+      const response = await axios.post('http://127.0.0.1:5000/kelly-calculator', data, {
         headers: { 'Content-Type': 'application/json' }
       });
       setResult(response.data);

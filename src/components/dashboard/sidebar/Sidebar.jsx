@@ -56,6 +56,15 @@ function Sidebar({ setMinimizeSidebar }) {
             <li>
               <NavLink
                 onClick={setMinimizeSidebar}
+                to="combined-calculator"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                Betting Calculators
+              </NavLink>
+            </li>
+            {/* <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
                 to="poisson-calculator"
                 className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
               >
@@ -70,16 +79,16 @@ function Sidebar({ setMinimizeSidebar }) {
               >
                 Kelly Calculator
               </NavLink>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <NavLink
                 onClick={setMinimizeSidebar}
                 to="betting-calculator"
                 className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
               >
-                Betting Calculator
+                Betting Correct Score Calculator
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink
                 onClick={setMinimizeSidebar}
@@ -89,7 +98,7 @@ function Sidebar({ setMinimizeSidebar }) {
                 Sports Trading Betting Calculator
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 onClick={setMinimizeSidebar}
                 to="probability-calculator"
@@ -97,7 +106,7 @@ function Sidebar({ setMinimizeSidebar }) {
               >
                 Calculate Probability
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink
                 onClick={setMinimizeSidebar}
