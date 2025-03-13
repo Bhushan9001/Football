@@ -18,6 +18,7 @@ const CombinedCalculator = () => {
   const [odds, setOdds] = useState("");
   const [fairOdds, setFairOdds] = useState("");
   const [bankroll, setBankroll] = useState("");
+  const [kellyFraction, setKellyFraction] = useState("100"); // New state for Kelly fraction
   const [kellyResult, setKellyResult] = useState(null);
   const [kellyError, setKellyError] = useState(null);
 
@@ -40,7 +41,7 @@ const CombinedCalculator = () => {
 
     try {
       const response = await axios.post(
-        "http://16.16.10.60:5000/poisson-predictor",
+        "http://localhost:5000/poisson-predictor",
         data,
         {
           headers: { "Content-Type": "application/json" },
@@ -57,14 +58,38 @@ const CombinedCalculator = () => {
 
   // Kelly Calculator Logic
   const calculateKelly = async () => {
-    if (!odds || !fairOdds || !bankroll) {
+    // Basic field validation
+    if (!odds || !fairOdds || !bankroll || !kellyFraction) {
       setKellyError("Please fill in all fields.");
       setKellyResult(null);
       return;
     }
 
-    if (isNaN(fairOdds) || fairOdds <= 0) {
-      setKellyError("Fair Odds must be a positive number.");
+    // Validate odds
+    if (parseFloat(odds) <= 1) {
+      setKellyError("Odds must be greater than 1.");
+      setKellyResult(null);
+      return;
+    }
+
+    // Validate fair odds
+    if (parseFloat(fairOdds) <= 1) {
+      setKellyError("Fair odds must be greater than 1.");
+      setKellyResult(null);
+      return;
+    }
+
+    // Validate kelly fraction
+    const parsedKellyFraction = parseFloat(kellyFraction);
+    if (parsedKellyFraction <= 0 || parsedKellyFraction > 100) {
+      setKellyError("Kelly fraction must be between 0 and 100.");
+      setKellyResult(null);
+      return;
+    }
+
+    // Validate bankroll
+    if (parseFloat(bankroll) <= 0) {
+      setKellyError("Bankroll must be greater than 0.");
       setKellyResult(null);
       return;
     }
@@ -74,11 +99,12 @@ const CombinedCalculator = () => {
       fair_odds: parseFloat(fairOdds),
       probability: calculateProbability(),
       bankroll: parseFloat(bankroll),
+      kelly_fraction: parsedKellyFraction / 100,
     };
 
     try {
       const response = await axios.post(
-        "http://16.16.10.60:5000/kelly-calculator",
+        "http://localhost:5000/kelly-calculator",
         data,
         {
           headers: { "Content-Type": "application/json" },
@@ -87,51 +113,30 @@ const CombinedCalculator = () => {
       setKellyResult(response.data);
       setKellyError(null);
     } catch (err) {
-      setKellyError("Error calculating Kelly bet.");
+      setKellyError(err.response?.data?.error || "Error calculating Kelly bet.");
       setKellyResult(null);
     }
-  };
+};
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
+    <div className="container mx-auto p-4 max-w-7xl">
       <h1 className="text-4xl font-extrabold text-center mb-8 text-gray-800">
         Betting Calculators
       </h1>
 
-      {/* Toggle Buttons */}
-      <div className="flex justify-center mb-8">
-        <button
-          onClick={() => setActiveCalculator("poisson")}
-          className={`px-6 py-3 rounded-l-lg font-semibold ${
-            activeCalculator === "poisson"
-              ? "bg-green-600 text-white"
-              : "bg-gray-200 text-gray-800"
-          }`}
-        >
-          Poisson Calculator
-        </button>
-        <button
-          onClick={() => setActiveCalculator("kelly")}
-          className={`px-6 py-3 rounded-r-lg font-semibold ${
-            activeCalculator === "kelly"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-800"
-          }`}
-        >
-          Kelly Calculator
-        </button>
-      </div>
-
-      {/* Poisson Calculator */}
-      {activeCalculator === "poisson" && (
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Poisson Calculator */}
         <div className="bg-green-600 rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-bold mb-6 text-white text-center">
+            Poisson Calculator
+          </h2>
           <form>
             <div className="grid md:grid-cols-2 gap-8">
               {/* Home Team Stats */}
               <div>
-                <h2 className="text-2xl font-bold mb-4 text-white">
+                <h3 className="text-xl font-bold mb-4 text-white">
                   Home Team Stats
-                </h2>
+                </h3>
                 <input
                   type="number"
                   placeholder="Goals Scored"
@@ -163,9 +168,9 @@ const CombinedCalculator = () => {
 
               {/* Away Team Stats */}
               <div>
-                <h2 className="text-2xl font-bold mb-4 text-white">
+                <h3 className="text-xl font-bold mb-4 text-white">
                   Away Team Stats
-                </h2>
+                </h3>
                 <input
                   type="number"
                   placeholder="Goals Scored"
@@ -198,39 +203,26 @@ const CombinedCalculator = () => {
             <button
               type="button"
               onClick={calculatePoisson}
-              className="mt-6 bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
+              className="w-full mt-6 bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
             >
               Calculate Poisson Probabilities
             </button>
           </form>
 
-          {/* Error Message */}
           {poissonError && (
             <p className="mt-4 text-red-600 font-semibold">{poissonError}</p>
           )}
 
-          {/* Results */}
           {poissonResults && (
-            <div
-              id="poisson-results"
-              className="mt-8 text-gray-800 bg-gray-50 rounded-xl p-6 shadow-inner"
-            >
-              <h2 className="text-3xl font-bold mb-6 text-blue-700">
-                Poisson Probability Results
-              </h2>
+            <div className="mt-8 text-gray-800 bg-gray-50 rounded-xl p-6 shadow-inner">
+              <h3 className="text-2xl font-bold mb-6 text-blue-700">Results</h3>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-blue-100">
-                      <th className="border border-blue-200 p-3 text-left">
-                        Outcome
-                      </th>
-                      <th className="border border-blue-200 p-3 text-left">
-                        Probability (%)
-                      </th>
-                      <th className="border border-blue-200 p-3 text-left">
-                        Fair Odds
-                      </th>
+                      <th className="border border-blue-200 p-3 text-left">Outcome</th>
+                      <th className="border border-blue-200 p-3 text-left">Probability (%)</th>
+                      <th className="border border-blue-200 p-3 text-left">Fair Odds</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -251,13 +243,14 @@ const CombinedCalculator = () => {
             </div>
           )}
         </div>
-      )}
 
-      {/* Kelly Calculator */}
-      {activeCalculator === "kelly" && (
+        {/* Kelly Calculator */}
         <div className="bg-blue-500 rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-bold mb-6 text-white text-center">
+            Kelly Calculator
+          </h2>
           <form>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4">
               <div>
                 <label className="block mb-2 text-white font-semibold">
                   Odds
@@ -312,36 +305,43 @@ const CombinedCalculator = () => {
                   className="w-full p-3 rounded-lg text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
                 />
               </div>
+              <div>
+                <label className="block mb-2 text-white font-semibold">
+                  Kelly Fraction (%)
+                </label>
+                <input
+                  type="number"
+                  placeholder="Kelly Fraction (e.g., 50 for half Kelly)"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={kellyFraction}
+                  onChange={(e) => setKellyFraction(e.target.value)}
+                  className="w-full p-3 rounded-lg text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                />
+              </div>
             </div>
             <button
               type="button"
               onClick={calculateKelly}
-              className="mt-6 bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
+              className="w-full mt-6 bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
             >
               Calculate Kelly Bet
             </button>
           </form>
 
-          {/* Error Message */}
           {kellyError && (
             <p className="mt-4 text-red-600 font-semibold">{kellyError}</p>
           )}
 
-          {/* Results */}
           {kellyResult && (
             <div className="mt-8 text-gray-800 bg-gray-50 rounded-xl p-6 shadow-inner">
-              <h2 className="text-3xl font-bold mb-6 text-blue-700">
-                Kelly Bet Calculation
-              </h2>
+              <h3 className="text-2xl font-bold mb-6 text-blue-700">Results</h3>
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-blue-100">
-                    <th className="border border-blue-200 p-3 text-left">
-                      Kelly Bet
-                    </th>
-                    <th className="border border-blue-200 p-3 text-left">
-                      Kelly Fraction (%)
-                    </th>
+                    <th className="border border-blue-200 p-3 text-left">Kelly Bet</th>
+                    <th className="border border-blue-200 p-3 text-left">Kelly Fraction (%)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -358,7 +358,7 @@ const CombinedCalculator = () => {
             </div>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

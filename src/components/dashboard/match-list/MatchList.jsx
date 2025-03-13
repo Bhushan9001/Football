@@ -9,7 +9,6 @@ import { getAllFixtures } from "../../../services/apiFixtures";
 import Loader from "../../../ui/Loader";
 import { Button, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { FixedSizeList as List } from 'react-window';
 
 function LeagueSearchBar({ teams, onSelectTeam }) {
   const [leagueSearchQuery, setLeagueSearchQuery] = useState("");
@@ -127,11 +126,30 @@ function MatchList() {
   useEffect(() => {
     (async () => {
       try {
+        console.log("Fetching fixtures for:", {
+          leagueId: selectedTeam.league.id,
+          season: selectedSeason
+        });
+        
         const response = await getAllFixtures(selectedTeam.league.id, selectedSeason);
-        setFixtures(response.data.response);
-        console.log("fixtures", response.data);
+        
+        console.log("API Response for", selectedSeason, ":", {
+          status: response.status,
+          data: response.data
+        });
+
+        // Handle potential API response structure changes
+        const fixturesData = response.data?.response || [];
+        console.log("Processed fixtures:", fixturesData);
+
+        setFixtures(fixturesData);
       } catch (error) {
-        console.log(error);
+        console.error("API Error:", {
+          message: error.message,
+          config: error.config,
+          response: error.response
+        });
+        setFixtures([]); // Reset fixtures on error
       } finally {
         setLoading(false);
       }
@@ -210,8 +228,9 @@ function MatchList() {
                         'block px-4 py-2 text-sm w-full text-left'
                       )}
                       onClick={() => {
-                        setSelectedSeason(season);
-                        console.log('Selected season:', season);
+                        const seasonYear = parseInt(season, 10); // Convert to number
+                        setSelectedSeason(seasonYear.toString());
+                        console.log('Selected season:', seasonYear.toString());
                       }}
                     >
                       {season}
@@ -227,14 +246,34 @@ function MatchList() {
   }
 
   const handleSearch = (item) => {
-    const lowerCaseQuery = searchQuery.toLowerCase();
-    const lowerCaseDate = searchDate.toLowerCase();
-    const matchDate = format(parseISO(item.fixture.date), "yyyy-MM-dd");
+    try {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      const lowerCaseDate = searchDate.toLowerCase();
+      
+      // Enhanced date parsing with fallback
+      const parsedDate = parseISO(item.fixture.date);
+      const matchDate = isNaN(parsedDate) 
+        ? item.fixture.date.slice(0, 10) // Fallback to string manipulation
+        : format(parsedDate, "yyyy-MM-dd");
 
-    return (
-      (lowerCaseQuery === "" || item.teams.home.name.toLowerCase().includes(lowerCaseQuery) || item.teams.away.name.toLowerCase().includes(lowerCaseQuery)) &&
-      (lowerCaseDate === "" || matchDate.includes(lowerCaseDate))
-    );
+      console.log("Filtering fixture:", {
+        originalDate: item.fixture.date,
+        parsedDate: parsedDate.toISOString(),
+        matchDate,
+        homeTeam: item.teams.home.name,
+        awayTeam: item.teams.away.name
+      });
+
+      return (
+        (lowerCaseQuery === "" || 
+         item.teams.home.name.toLowerCase().includes(lowerCaseQuery) || 
+         item.teams.away.name.toLowerCase().includes(lowerCaseQuery)) &&
+        (lowerCaseDate === "" || matchDate.includes(lowerCaseDate))
+      );
+    } catch (error) {
+      console.error("Filter error for fixture:", item.fixture.id, error);
+      return false;
+    }
   };
 
   return (
@@ -262,6 +301,14 @@ function MatchList() {
         value={fixtures.filter(handleSearch)}
         rowClassName="cursor-pointer"
         className="datatable-custom"
+        emptyMessage={
+          <div className="text-center p-4">
+            {loading ? 'Loading...' : 'No matches found for the selected season'}
+            <div className="text-sm text-gray-500 mt-2">
+              League: {selectedTeam.league.name} | Season: {selectedSeason}
+            </div>
+          </div>
+        }
       >
         <Column field="fixture.date" header="Date" body={(rowData) => format(parseISO(rowData.fixture.date), "dd/MM/yyyy")} />
         <Column field="teams.home.name" header="Home Team" />
@@ -269,6 +316,13 @@ function MatchList() {
         <Column body={analyzeBodyTemplate} header="Analyze" />
         <Column body={leagueNameBodyTemplate} header="League" />
       </DataTable>
+
+      {/* Debugging overlay */}
+      <div className="fixed bottom-4 right-4 bg-white p-4 rounded-lg shadow-lg border text-xs">
+        <div>Current Season: {selectedSeason}</div>
+        <div>Total Fixtures: {fixtures.length}</div>
+        <div>Last Updated: {new Date().toLocaleTimeString()}</div>
+      </div>
     </div>
   );
 }
