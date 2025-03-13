@@ -7,45 +7,77 @@ function Odds() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
-  // URL parameters with validation
+  // URL parameters
   const fixtureId = searchParams.get("fixture");
   const leagueId = searchParams.get("league");
   const seasonYear = searchParams.get("season");
 
+  // State variables
   const [bookmakers, setBookmakers] = useState([]);
+  const [availableBets, setAvailableBets] = useState([]);
   const [selectedBookmaker, setSelectedBookmaker] = useState('');
+  const [currentBetIndex, setCurrentBetIndex] = useState(0);
   const [oddsData, setOddsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch bookmakers
+  // Calculate selected bet ID
+  const selectedBetId = availableBets.length > 0 
+    ? availableBets[currentBetIndex]?.id 
+    : null;
+
+  // Fetch initial data (bookmakers and bets)
   useEffect(() => {
-    const fetchBookmakers = async () => {
+    const fetchInitialData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        const response = await axios.get(
-          'https://v3.football.api-sports.io/odds/bookmakers',
-          {
+        const [bookmakersRes, betsRes] = await Promise.all([
+          axios.get('https://v3.football.api-sports.io/odds/bookmakers', {
             headers: {
               'x-rapidapi-host': 'v3.football.api-sports.io',
               'x-rapidapi-key': import.meta.env.VITE_API_KEY
             }
-          }
-        );
-        setBookmakers(response.data?.response || []);
+          }),
+          axios.get('https://v3.football.api-sports.io/odds/bets', {
+            headers: {
+              'x-rapidapi-host': 'v3.football.api-sports.io',
+              'x-rapidapi-key': import.meta.env.VITE_API_KEY
+            }
+          })
+        ]);
+
+        // Set bookmakers
+        setBookmakers(bookmakersRes.data?.response || []);
+
+        // Set available bets and initialize index
+        const betsData = betsRes.data?.response || [];
+        setAvailableBets(betsData);
+        
+        // Find default bet (Match Winner - id: 1)
+        const defaultIndex = betsData.findIndex(bet => bet.id === 1);
+        if (defaultIndex !== -1) {
+          setCurrentBetIndex(defaultIndex);
+        } else if (betsData.length > 0) {
+          setCurrentBetIndex(0);
+        }
+
       } catch (err) {
-        console.error('Bookmakers API Error:', err);
-        setError('Failed to fetch bookmakers. Please try again later.');
+        console.error('Initial data fetch error:', err);
+        setError('Failed to load initial data. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
-    fetchBookmakers();
+
+    fetchInitialData();
   }, []);
 
-  // Fetch odds when bookmaker is selected
+  // Fetch odds when parameters change
   useEffect(() => {
     const fetchOdds = async () => {
-      if (!selectedBookmaker || !fixtureId || !leagueId || !seasonYear) return;
+      if (!selectedBookmaker || !fixtureId || !leagueId || !seasonYear || !selectedBetId) return;
 
       setLoading(true);
       setError(null);
@@ -54,14 +86,12 @@ function Odds() {
       try {
         const params = {
           season: seasonYear,
-          bet: 1, // Default to "Match Winner" bet type
+          bet: selectedBetId,
           bookmaker: selectedBookmaker,
           fixture: fixtureId,
           league: leagueId,
           timezone: 'Europe/London',
         };
-
-        console.log('Sending request with parameters:', params);
 
         const response = await axios.get(
           'https://v3.football.api-sports.io/odds',
@@ -74,9 +104,6 @@ function Odds() {
           }
         );
 
-        console.log('Odds API Full Response:', response.data);
-
-        // Handle empty response
         if (!response.data?.response?.length) {
           setError('No odds data available for this selection.');
           return;
@@ -92,7 +119,17 @@ function Odds() {
     };
 
     fetchOdds();
-  }, [selectedBookmaker, fixtureId, leagueId, seasonYear]);
+  }, [selectedBookmaker, fixtureId, leagueId, seasonYear, selectedBetId]);
+
+  // Handle Previous button click
+  const handlePrevious = () => {
+    setCurrentBetIndex(prev => Math.max(0, prev - 1));
+  };
+
+  // Handle Next button click
+  const handleNext = () => {
+    setCurrentBetIndex(prev => Math.min(availableBets.length - 1, prev + 1));
+  };
 
   if (loading) return <Loader />;
 
@@ -117,6 +154,33 @@ function Odds() {
         </select>
       </div>
 
+      {/* Betting market navigation */}
+      {availableBets.length > 0 && (
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <div className="flex gap-2">
+              <button
+                onClick={handlePrevious}
+                disabled={currentBetIndex === 0}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentBetIndex === availableBets.length - 1}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+          <div className="text-center text-lg font-semibold">
+            {availableBets[currentBetIndex]?.name}
+          </div>
+        </div>
+      )}
+
       {/* Error messages */}
       {error && (
         <div className="text-red-500 p-4 bg-red-50 rounded-md mb-4">
@@ -124,17 +188,9 @@ function Odds() {
         </div>
       )}
 
-      {/* Data display */}
+      {/* Odds display */}
       {oddsData && oddsData.response?.length > 0 ? (
         <div className="space-y-4">
-          <div className="bg-gray-50 p-4 rounded-md">
-            <h3 className="font-semibold mb-2">Odds Parameters:</h3>
-            <pre className="text-sm bg-white p-2 rounded">
-              {JSON.stringify(oddsData.parameters, null, 2)}
-            </pre>
-          </div>
-
-          {/* Display odds data */}
           {oddsData.response.map((fixtureOdds, index) => (
             <div key={index} className="bg-white p-4 rounded-md shadow">
               <h3 className="text-lg font-semibold mb-4">
