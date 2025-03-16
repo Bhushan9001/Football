@@ -26,7 +26,7 @@ function PoissonCalculator() {
     };
 
     try {
-      const response = await axios.post('http://16.16.10.60:5000/poisson-predictor', data, {
+      const response = await axios.post('http://localhost:5000/poisson-predictor', data, {
         headers: { 'Content-Type': 'application/json' },
       });
       console.log(response);
@@ -55,7 +55,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsScored}
                 onChange={(e) => setHomeGoalsScored(e.target.value)}
-                className="w-full p-3 rounded-lg mb-4 text-white border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -64,7 +64,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsConceded}
                 onChange={(e) => setHomeGoalsConceded(e.target.value)}
-                className="w-full p-3 rounded-lg mb-4 text-white border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"

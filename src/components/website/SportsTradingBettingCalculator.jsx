@@ -24,7 +24,7 @@ function SportsTradingBettingCalculator() {
     const formData = new FormData(e.target);
     
     try {
-      const response = await axios.post('http://16.16.10.60:5000/stbetting', formData, {
+      const response = await axios.post('http://localhost:5000/stbetting', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

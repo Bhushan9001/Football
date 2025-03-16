@@ -47,7 +47,7 @@ const GreenBookCalculator = () => {
       };
   
       try {
-        const response = await axios.post('http://16.16.10.60:5000/calculate_bets/greenbook', payload, {
+        const response = await axios.post('http://localhost:5000/calculate_bets/greenbook', payload, {
           headers: {
             'Content-Type': 'application/json',
             // Uncomment the line below if you need to include the Authorization header

@@ -18,6 +18,7 @@
     "chart.js": "^4.4.1",
     "countries-list": "^3.0.6",
     "date-fns": "^3.3.1",
+    "football_app": "file:",
     "formik": "^2.4.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "primeicons": "^6.0.1",
