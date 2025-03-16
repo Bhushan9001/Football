@@ -1,3 +1,4 @@
+// BettingCalculator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -77,7 +78,7 @@ function BettingCalculator() {
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/betting-calculator', payload, {
+      const response = await axios.post('http://16.16.10.60:5000/stbetting', payload, {
         headers: { 'Content-Type': 'application/json' }
       });
       // Expecting the response data to have a "results" array.

@@ -1,196 +1,231 @@
 import { useLocation } from "react-router-dom";
-import { useEffect ,useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../../ui/Loader";
 import axios from 'axios';
 
 function Odds() {
-
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
-  const searchParms = new URLSearchParams(location.search);
+  // URL parameters
+  const fixtureId = searchParams.get("fixture");
+  const leagueId = searchParams.get("league");
+  const seasonYear = searchParams.get("season");
 
-  const fixtureId = searchParms.get("fixture");
-
-  const homeTeamId = searchParms.get("home");
-
-  const awayTeamId = searchParms.get("away");
-
-  const league = searchParms.get("league");
-
-  const season = searchParms.get("season");
-
+  // State variables
   const [bookmakers, setBookmakers] = useState([]);
+  const [availableBets, setAvailableBets] = useState([]);
   const [selectedBookmaker, setSelectedBookmaker] = useState('');
+  const [currentBetIndex, setCurrentBetIndex] = useState(0);
   const [oddsData, setOddsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentBetIndex, setCurrentBetIndex] = useState(0);
-  const [currentValuePage, setCurrentValuePage] = useState(1);
-  const valuesPerPage = 5;
 
+  // Calculate selected bet ID
+  const selectedBetId = availableBets.length > 0 
+    ? availableBets[currentBetIndex]?.id 
+    : null;
+
+  // Fetch initial data (bookmakers and bets)
   useEffect(() => {
-    const fetchBookmakers = async () => {
+    const fetchInitialData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        const response = await axios.get(
-          'https://v3.football.api-sports.io/odds/bookmakers',
-          {
-            headers:{
-              'Content-Type': 'application/json',
-              'x-rapidapi-host':'v3.football.api-sports.io',
+        const [bookmakersRes, betsRes] = await Promise.all([
+          axios.get('https://v3.football.api-sports.io/odds/bookmakers', {
+            headers: {
+              'x-rapidapi-host': 'v3.football.api-sports.io',
               'x-rapidapi-key': import.meta.env.VITE_API_KEY
-            } 
-          }
-        );
-        setBookmakers(response.data.response);
-        setLoading(false);
+            }
+          }),
+          axios.get('https://v3.football.api-sports.io/odds/bets', {
+            headers: {
+              'x-rapidapi-host': 'v3.football.api-sports.io',
+              'x-rapidapi-key': import.meta.env.VITE_API_KEY
+            }
+          })
+        ]);
+
+        // Set bookmakers
+        setBookmakers(bookmakersRes.data?.response || []);
+
+        // Set available bets and initialize index
+        const betsData = betsRes.data?.response || [];
+        setAvailableBets(betsData);
+        
+        // Find default bet (Match Winner - id: 1)
+        const defaultIndex = betsData.findIndex(bet => bet.id === 1);
+        if (defaultIndex !== -1) {
+          setCurrentBetIndex(defaultIndex);
+        } else if (betsData.length > 0) {
+          setCurrentBetIndex(0);
+        }
+
       } catch (err) {
-        setError(err.message);
+        console.error('Initial data fetch error:', err);
+        setError('Failed to load initial data. Please try again later.');
+      } finally {
         setLoading(false);
       }
     };
-    fetchBookmakers();
+
+    fetchInitialData();
   }, []);
 
+  // Fetch odds when parameters change
   useEffect(() => {
-    if (selectedBookmaker) {
-      fetchOdds();
-    }
-  }, [selectedBookmaker]);
+    const fetchOdds = async () => {
+      if (!selectedBookmaker || !fixtureId || !leagueId || !seasonYear || !selectedBetId) return;
 
-  const fetchOdds = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        'https://v3.football.api-sports.io/odds',
-        {
-          params: {
-            season: season,
-            bet: '4',
-            bookmaker: selectedBookmaker,
-            fixture: fixtureId,
-            league: league,
-            timezone: 'Europe/London',
-          },
-          headers:{
-            'Content-Type': 'application/json',
-            'x-rapidapi-host':'v3.football.api-sports.io',
-            'x-rapidapi-key': import.meta.env.VITE_API_KEY
-          } 
+      setLoading(true);
+      setError(null);
+      setOddsData(null);
+
+      try {
+        const params = {
+          season: seasonYear,
+          bet: selectedBetId,
+          bookmaker: selectedBookmaker,
+          fixture: fixtureId,
+          league: leagueId,
+          timezone: 'Europe/London',
+        };
+
+        const response = await axios.get(
+          'https://v3.football.api-sports.io/odds',
+          {
+            params,
+            headers: {
+              'x-rapidapi-host': 'v3.football.api-sports.io',
+              'x-rapidapi-key': import.meta.env.VITE_API_KEY
+            }
+          }
+        );
+
+        if (!response.data?.response?.length) {
+          setError('No odds data available for this selection.');
+          return;
         }
-      );
-      setOddsData(response.data);
-      console.log(response)
-      setCurrentBetIndex(0);
-      setCurrentValuePage(1);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
+
+        setOddsData(response.data);
+      } catch (err) {
+        console.error('Odds API Error:', err);
+        setError('Failed to fetch odds data. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOdds();
+  }, [selectedBookmaker, fixtureId, leagueId, seasonYear, selectedBetId]);
+
+  // Handle Previous button click
+  const handlePrevious = () => {
+    setCurrentBetIndex(prev => Math.max(0, prev - 1));
   };
 
-  const handleBookmakerChange = (event) => {
-    setSelectedBookmaker(event.target.value);
+  // Handle Next button click
+  const handleNext = () => {
+    setCurrentBetIndex(prev => Math.min(availableBets.length - 1, prev + 1));
   };
 
-  if (loading) return <Loader/>
-  if (error) return <div>Error: {error}</div>;
-
-  const handleNextBet = () => {
-    if (oddsData && oddsData.response[0].bookmakers[0].bets) {
-      setCurrentBetIndex((prevIndex) => (prevIndex + 1) % oddsData.response[0].bookmakers[0].bets.length);
-      setCurrentValuePage(1);
-    }
-  };
-
-  const handlePrevBet = () => {
-    if (oddsData && oddsData.response[0].bookmakers[0].bets) {
-      setCurrentBetIndex((prevIndex) => (prevIndex - 1 + oddsData.response[0].bookmakers[0].bets.length) % oddsData.response[0].bookmakers[0].bets.length);
-      setCurrentValuePage(1);
-    }
-  };
-
-  const handleNextValuePage = () => {
-    if (oddsData && oddsData.response[0].bookmakers[0].bets) {
-      const totalValuePages = Math.ceil(oddsData.response[0].bookmakers[0].bets[currentBetIndex].values.length / valuesPerPage);
-      setCurrentValuePage((prevPage) => Math.min(prevPage + 1, totalValuePages));
-    }
-  };
-
-  const handlePrevValuePage = () => {
-    setCurrentValuePage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  if (loading) return <Loader />;
 
   return (
     <div className="font-sans max-w-2xl mx-auto mt-8 p-4">
-      <h2 className="text-2xl font-bold text-center mb-6">Odds Data</h2>
-      
+      <h2 className="text-2xl font-bold text-center mb-6">Match Odds</h2>
+
+      {/* Bookmaker selection */}
       <div className="mb-6">
-        <label htmlFor="bookmaker-select" className="block mb-2">Select a bookmaker: </label>
+        <label className="block mb-2 font-medium">Select Bookmaker:</label>
         <select
-          id="bookmaker-select"
           value={selectedBookmaker}
-          onChange={handleBookmakerChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          onChange={(e) => setSelectedBookmaker(e.target.value)}
+          className="w-full p-2 border rounded-md bg-white"
         >
-          <option value="">-- Select Bookmaker --</option>
-          {bookmakers.map((bookmaker) => (
-            <option key={bookmaker.id} value={bookmaker.id}>
-              {bookmaker.name}
+          <option value="">Choose a bookmaker...</option>
+          {bookmakers.map((bm) => (
+            <option key={bm.id} value={bm.id}>
+              {bm.name}
             </option>
           ))}
         </select>
       </div>
 
-      {oddsData && oddsData.response && oddsData.response.length > 0 && oddsData.response[0].bookmakers && oddsData.response[0].bookmakers.length > 0 && (
-        <>
-          <h3 className="text-xl font-semibold text-center mb-4">{oddsData.response[0].bookmakers[0].name}</h3>
-          
-          <div className="flex justify-between items-center mb-4">
-            <button onClick={handlePrevBet} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">&lt; Prev Bet</button>
-            <h4 className="text-lg font-medium">{oddsData.response[0].bookmakers[0].bets[currentBetIndex].name}</h4>
-            <button onClick={handleNextBet} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Next Bet &gt;</button>
+      {/* Betting market navigation */}
+      {availableBets.length > 0 && (
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <div className="flex gap-2">
+              <button
+                onClick={handlePrevious}
+                disabled={currentBetIndex === 0}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentBetIndex === availableBets.length - 1}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
           </div>
-
-          <table className="w-full border-collapse mb-4">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="p-3 border border-gray-300 text-left">Value</th>
-                <th className="p-3 border border-gray-300 text-left">Odd</th>
-              </tr>
-            </thead>
-            <tbody>
-              {oddsData.response[0].bookmakers[0].bets[currentBetIndex].values
-                .slice((currentValuePage - 1) * valuesPerPage, currentValuePage * valuesPerPage)
-                .map((value, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="p-3 border border-gray-300">{value.value}</td>
-                    <td className="p-3 border border-gray-300">{value.odd}</td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-
-          <div className="flex justify-between items-center">
-            <button 
-              onClick={handlePrevValuePage} 
-              disabled={currentValuePage === 1}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              &lt; Prev Page
-            </button>
-            <span>
-              Page {currentValuePage} of {Math.ceil(oddsData.response[0].bookmakers[0].bets[currentBetIndex].values.length / valuesPerPage)}
-            </span>
-            <button
-              onClick={handleNextValuePage}
-              disabled={currentValuePage === Math.ceil(oddsData.response[0].bookmakers[0].bets[currentBetIndex].values.length / valuesPerPage)}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Next Page &gt;
-            </button>
+          <div className="text-center text-lg font-semibold">
+            {availableBets[currentBetIndex]?.name}
           </div>
-        </>
+        </div>
+      )}
+
+      {/* Error messages */}
+      {error && (
+        <div className="text-red-500 p-4 bg-red-50 rounded-md mb-4">
+          {error}
+        </div>
+      )}
+
+      {/* Odds display */}
+      {oddsData && oddsData.response?.length > 0 ? (
+        <div className="space-y-4">
+          {oddsData.response.map((fixtureOdds, index) => (
+            <div key={index} className="bg-white p-4 rounded-md shadow">
+              <h3 className="text-lg font-semibold mb-4">
+                Bookmaker: {fixtureOdds.bookmakers[0].name}
+              </h3>
+              {fixtureOdds.bookmakers[0].bets.map((bet, betIndex) => (
+                <div key={betIndex} className="mb-6">
+                  <h4 className="text-md font-medium mb-2">{bet.name}</h4>
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-gray-100">
+                        <th className="p-2 border text-left">Value</th>
+                        <th className="p-2 border text-left">Odd</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bet.values.map((value, valueIndex) => (
+                        <tr key={valueIndex} className="hover:bg-gray-50">
+                          <td className="p-2 border">{value.value}</td>
+                          <td className="p-2 border">{value.odd}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : (
+        !error && (
+          <div className="text-center py-4 text-gray-500">
+            No odds data available for the selected parameters.
+          </div>
+        )
       )}
     </div>
   );

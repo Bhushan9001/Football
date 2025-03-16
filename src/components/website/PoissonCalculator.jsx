@@ -1,3 +1,4 @@
+// PoissonCalculator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -55,7 +56,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsScored}
                 onChange={(e) => setHomeGoalsScored(e.target.value)}
-                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                className="w-full p-3 rounded-lg mb-4 text-black border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"
@@ -64,7 +65,7 @@ function PoissonCalculator() {
                 step="1"
                 value={homeGoalsConceded}
                 onChange={(e) => setHomeGoalsConceded(e.target.value)}
-                className="w-full p-3 rounded-lg mb-4 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                className="w-full p-3 rounded-lg mb-4 text-black border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
               />
               <input
                 type="number"

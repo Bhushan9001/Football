@@ -47,6 +47,8 @@ import Calculator from "./components/website/calculator/Calculator";
 import CalculatorV1 from "./components/website/calculator-v1/CalculatorV1";
 import PoissonCalculator from "./components/website/PoissonCalculator";
 import KellyCalculator from "./components/website/KellyCalculator";
+import CombinedCalculator from "./components/website/CombinedCalculator"
+
 import GameStatistics from "./components/dashboard/game-statistics/GameStatistics"; 
 import OddsVisualizer from "./components/dashboard/odds/OddsData";
 import Odds from "./components/dashboard/odds/Odds";
@@ -101,8 +103,7 @@ function App() {
               <Route path="predictions-section" element={<PredictionsSection/>} />
               <Route path="calculator" element={<CalculatorV1 />} />
               {/* New Routes */}
-              <Route path="poisson-calculator" element={<PoissonCalculator />} />
-              <Route path="kelly-calculator" element={<KellyCalculator />} />
+              <Route path="combined-calculator" element={<CombinedCalculator />} />
               <Route path="betting-calculator" element={<BettingCalculator />} />
               <Route path="sports-trading-betting-calculator" element={<SportsBettingCalculator />} />
               <Route path="probability-calculator" element={<ProbabilityCalculator/>} />
