@@ -1,0 +1,138 @@
+from flask import Flask, request, jsonify, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('bet_calculator.html')
+
+# Calculate Lay Stake based on lay liability
+def calculate_lay_stake(lay_odds, lay_liability):
+    return round(lay_liability / (lay_odds - 1), 2)
+
+# Greenbook Calculation: Ensures profit regardless of the outcome
+def calculate_greenbook(back_odds, back_stake, lay_odds, commission):
+    lay_stake = (back_stake * back_odds) / lay_odds
+    back_profit = (back_odds - 1) * back_stake
+    lay_liability = (lay_odds - 1) * lay_stake
+    net_profit = back_profit - lay_liability
+    commission_amount = net_profit * (commission / 100)
+    greenbook_profit = net_profit - commission_amount
+    return round(greenbook_profit, 2), round(lay_stake, 2)
+
+# Freebet For Calculation: Profit if back bet wins
+def calculate_freebet_for(back_odds, lay_odds, liability, commission):
+    lay_stake = calculate_lay_stake(lay_odds, liability)
+    back_profit = (back_odds - 1) * lay_stake
+    lay_liability = (lay_odds - 1) * lay_stake
+    profit = back_profit - lay_liability
+    commission_amount = profit * (commission / 100)
+    return round(profit - commission_amount, 2), round(lay_stake, 2)
+
+# Freebet Against Calculation: Profit if lay bet wins
+def calculate_freebet_against(lay_odds, back_stake, commission):
+    lay_stake = back_stake
+    lay_profit = lay_stake - (lay_odds - 1) * lay_stake
+    lay_profit_after_commission = lay_profit * (1 - commission / 100)
+    return round(lay_profit_after_commission, 2)
+
+# Current Profit Calculation: Profit if back or lay bet wins
+def calculate_current_profit(back_odds, back_stake, lay_odds=None, lay_liability=None, commission=0):
+    # Check if we have both back and lay bets
+    if lay_odds and lay_liability:
+        lay_stake = calculate_lay_stake(lay_odds, lay_liability)
+        
+        # Profit if back bet wins
+        back_profit = (back_odds - 1) * back_stake
+        net_back_profit = back_profit - lay_liability
+
+        # Profit if lay bet wins
+        lay_profit = lay_stake - lay_liability
+        lay_profit_after_commission = lay_profit * (1 - commission / 100)
+
+        return {
+            'back_win': round(net_back_profit, 2),  # If back bet wins, net profit after lay liability
+            'lay_win': round(lay_profit_after_commission, 2)  # If lay bet wins, net profit after commission
+        }
+    
+    # If only back bet is present
+    if back_stake and not lay_odds:
+        back_profit = (back_odds - 1) * back_stake
+        
+        return {
+            'back_win': round(back_profit, 2),  # Profit if back bet wins
+            'lay_win': round(-back_stake, 2)  # Loss if back bet loses (lay wins)
+        }
+    
+    return {'back_win': 0, 'lay_win': 0}
+
+# Calculate weighted odds for multiple bets
+def calculate_weighted_odds(odds_stakes):
+    total_stake = sum(stake for odds, stake in odds_stakes)
+    if total_stake == 0:
+        return 0, 0
+    weighted_odds = sum(odds * stake for odds, stake in odds_stakes) / total_stake
+    return round(weighted_odds, 2), total_stake
+
+# Route for the specific calculations
+@app.route('/calculate_bets/<bet_type>', methods=['POST'])
+def calculate_bets(bet_type):
+    try:
+        data = request.json
+        back_bets = data.get('back_bets', [])
+        lay_bets = data.get('lay_bets', [])
+        commission = float(data.get('commission', 0))  # Ensure commission is cast to float
+
+        results = {}
+
+        # Process back bets and cast values to float
+        if back_bets:
+            weighted_back_odds, total_back_stake = calculate_weighted_odds([(float(bet['odds']), float(bet['stake'])) for bet in back_bets])
+            results["weighted_back_odds"] = weighted_back_odds
+            results["total_back_stake"] = total_back_stake
+
+        # Process lay bets and cast values to float
+        if lay_bets:
+            weighted_lay_odds, total_lay_liability = calculate_weighted_odds([(float(bet['odds']), float(bet['liability'])) for bet in lay_bets])
+            total_lay_stake = calculate_lay_stake(weighted_lay_odds, total_lay_liability)
+            results["weighted_lay_odds"] = weighted_lay_odds
+            results["total_lay_liability"] = total_lay_liability
+            results["total_lay_stake"] = total_lay_stake
+
+        # Calculate Greenbook if both back and lay bets are present
+        if bet_type == 'greenbook' and back_bets and lay_bets:
+            greenbook_profit, greenbook_lay_stake = calculate_greenbook(weighted_back_odds, total_back_stake, weighted_lay_odds, commission)
+            results["greenbook_profit"] = greenbook_profit
+            results["greenbook_lay_stake"] = greenbook_lay_stake
+
+        # Calculate Freebet For the situation
+        elif bet_type == 'freebet_for' and back_bets:
+            freebet_for_profit, freebet_for_lay_stake = calculate_freebet_for(weighted_back_odds, weighted_lay_odds, 100, commission)
+            results["freebet_for_profit"] = freebet_for_profit
+            results["freebet_for_lay_stake"] = freebet_for_lay_stake
+
+        # Calculate Freebet Against the situation
+        elif bet_type == 'freebet_against' and lay_bets:
+            freebet_against_profit = calculate_freebet_against(weighted_lay_odds, total_back_stake, commission)
+            results["freebet_against_profit"] = freebet_against_profit
+
+        # Calculate Current Profit for back and lay win scenarios
+        elif bet_type == 'current_profit':
+            current_profit = calculate_current_profit(
+                weighted_back_odds if back_bets else 0,
+                total_back_stake if back_bets else 0,
+                weighted_lay_odds if lay_bets else 0,
+                total_lay_liability if lay_bets else 0,
+                commission
+            )
+            results["current_profit_back_win"] = current_profit['back_win']
+            results["current_profit_lay_win"] = current_profit['lay_win']
+
+        return jsonify(results)
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
