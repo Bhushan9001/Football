@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const GreenBookCalculator = () => {
-  const [backBets, setBackBets] = useState([{ odds: '', stake: '', isFree: false }]);
-  const [layBets, setLayBets] = useState([{ odds: '', liability: '' }]);
+  const [backBets, setBackBets] = useState([{ odds: '', stake: '' }]);
+  const [layBets, setLayBets] = useState([{ odds: '', liability: '', stake: '' }]);
   const [commission, setCommission] = useState(3);
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [calculationType, setCalculationType] = useState('standard');
-  const [cashoutValue, setCashoutValue] = useState('');
+
+  useEffect(() => {
+    // Calculate lay stakes whenever lay bets change
+    const updatedLayBets = layBets.map(bet => ({
+      ...bet,
+      stake: calculateLayStake(bet.odds, bet.liability)
+    }));
+    setLayBets(updatedLayBets);
+  }, [layBets.map(bet => `${bet.odds}-${bet.liability}`).join()]);
+
+  const calculateLayStake = (odds, liability) => {
+    if (!odds || !liability || odds <= 1) return '';
+    return (parseFloat(liability) / (parseFloat(odds) - 1)).toFixed(2);
+  };
 
   const handleBackBetChange = (index, field, value) => {
     const newBackBets = [...backBets];
@@ -22,214 +34,207 @@ const GreenBookCalculator = () => {
     setLayBets(newLayBets);
   };
 
-  const toggleFreeBet = (index) => {
-    const newBackBets = [...backBets];
-    newBackBets[index].isFree = !newBackBets[index].isFree;
-    setBackBets(newBackBets);
-  };
-
   const addBackBet = () => {
-    setBackBets([...backBets, { odds: '', stake: '', isFree: false }]);
+    setBackBets([...backBets, { odds: '', stake: '' }]);
   };
 
   const addLayBet = () => {
-    setLayBets([...layBets, { odds: '', liability: '' }]);
+    setLayBets([...layBets, { odds: '', liability: '', stake: '' }]);
   };
 
-  const calculateFreeBetValue = (bet) => {
-    if (!bet.isFree) return parseFloat(bet.stake);
-    const potentialWin = (parseFloat(bet.odds) - 1) * parseFloat(bet.stake);
-    return potentialWin / parseFloat(bet.odds);
-  };
-
-  const compareCashout = () => {
-    const totalStake = backBets.reduce((acc, bet) => acc + calculateFreeBetValue(bet), 0);
-    const cashoutProfit = parseFloat(cashoutValue) - totalStake;
-    setResult({
-      cashoutProfit,
-      shouldCashout: cashoutProfit > 0
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleCalculate = async (type) => {
     setIsLoading(true);
     setError(null);
 
     try {
       const payload = {
-        back_bets: backBets.map(bet => ({
-          odds: parseFloat(bet.odds),
-          stake: calculateFreeBetValue(bet)
+        back_bets: backBets.filter(b => b.odds && b.stake).map(b => ({
+          odds: parseFloat(b.odds),
+          stake: parseFloat(b.stake)
         })),
-        lay_bets: layBets.map(bet => ({
-          odds: parseFloat(bet.odds),
-          liability: parseFloat(bet.liability)
+        lay_bets: layBets.filter(l => l.odds && l.liability).map(l => ({
+          odds: parseFloat(l.odds),
+          liability: parseFloat(l.liability)
         })),
         commission: parseFloat(commission)
       };
 
-      if (calculationType === 'cashout') {
-        compareCashout();
-        return;
-      }
-
-      const endpoint = calculationType === 'free' ? 'freebet_for' : 'greenbook';
-      const response = await fetch(`http://16.16.10.60:5000/calculate_bets/${endpoint}`, {
+      const response = await fetch(`http://45.119.47.81:5000/calculate_bets/${type}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
+      if (!response.ok) throw new Error('Calculation failed');
+      
       const data = await response.json();
       setResult(data);
     } catch (err) {
-      setError('An error occurred while calculating bets. Please try again.');
-      console.error('Error:', err);
+      setError(err.message || 'An error occurred while calculating bets.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-2xl font-bold mb-6">Advanced Bet Calculator</h1>
+    <div className="container mx-auto mt-5 p-4">
+      <h1 className="text-center text-3xl font-bold mb-8">Back Lay Betting Calculator</h1>
+      
+      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+        {/* Back Bets Section */}
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold mb-4">Back Bets</h3>
+          <div className="space-y-4">
+            {backBets.map((bet, index) => (
+              <div key={index} className="space-y-2">
+                <input
+                  type="number"
+                  placeholder="Back Odds"
+                  value={bet.odds}
+                  onChange={(e) => handleBackBetChange(index, 'odds', e.target.value)}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                  step="0.01"
+                />
+                <input
+                  type="number"
+                  placeholder="Back Stake"
+                  value={bet.stake}
+                  onChange={(e) => handleBackBetChange(index, 'stake', e.target.value)}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                  step="0.01"
+                />
+              </div>
+            ))}
+            <button 
+              onClick={addBackBet}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded"
+            >
+              Add More Back Bets
+            </button>
+          </div>
+        </div>
 
-        <div className="mb-4 space-x-2">
+        {/* Lay Bets Section */}
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold mb-4">Lay Bets</h3>
+          <div className="space-y-4">
+            {layBets.map((bet, index) => (
+              <div key={index} className="bg-red-50 p-4 rounded-lg space-y-2">
+                <input
+                  type="number"
+                  placeholder="Lay Odds"
+                  value={bet.odds}
+                  onChange={(e) => handleLayBetChange(index, 'odds', e.target.value)}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                  step="0.01"
+                />
+                <input
+                  type="number"
+                  placeholder="Lay Liability"
+                  value={bet.liability}
+                  onChange={(e) => handleLayBetChange(index, 'liability', e.target.value)}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                  step="0.01"
+                />
+                <input
+                  type="number"
+                  placeholder="Calculated Lay Stake"
+                  value={bet.stake}
+                  readOnly
+                  className="w-full p-2 border rounded bg-gray-100"
+                />
+              </div>
+            ))}
+            <button 
+              onClick={addLayBet}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded"
+            >
+              Add More Lay Bets
+            </button>
+          </div>
+        </div>
+
+        {/* Commission Input */}
+        <div className="mb-8">
+          <label className="block text-lg font-medium mb-2">Commission (%)</label>
+          <input
+            type="number"
+            value={commission}
+            onChange={(e) => setCommission(e.target.value)}
+            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+            step="0.01"
+          />
+        </div>
+
+        {/* Calculation Buttons */}
+        <div className="flex flex-wrap gap-3 mb-8">
           <button
-            className={`px-4 py-2 rounded ${calculationType === 'standard' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-            onClick={() => setCalculationType('standard')}
+            onClick={() => handleCalculate('greenbook')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
+            disabled={isLoading}
           >
-            Standard
+            Calculate Greenbook
           </button>
           <button
-            className={`px-4 py-2 rounded ${calculationType === 'free' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-            onClick={() => setCalculationType('free')}
+            onClick={() => handleCalculate('freebet_for')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
+            disabled={isLoading}
           >
-            Free Bet
+            Calculate Freebet For
           </button>
           <button
-            className={`px-4 py-2 rounded ${calculationType === 'cashout' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-            onClick={() => setCalculationType('cashout')}
+            onClick={() => handleCalculate('freebet_against')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
+            disabled={isLoading}
           >
-            Cash Out
+            Calculate Freebet Against
+          </button>
+          <button
+            onClick={() => handleCalculate('current_profit')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
+            disabled={isLoading}
+          >
+            Calculate Current Profit
+          </button>
+          <button
+            onClick={() => handleCalculate('cashout')}
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded"
+            disabled={isLoading}
+          >
+            Calculate Cashout
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Back Bets</h2>
-            {backBets.map((bet, index) => (
-              <div key={index} className="flex space-x-2 mb-2">
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="Odds"
-                  value={bet.odds}
-                  onChange={(e) => handleBackBetChange(index, 'odds', e.target.value)}
-                  className="border p-2 rounded"
-                />
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="Stake"
-                  value={bet.stake}
-                  onChange={(e) => handleBackBetChange(index, 'stake', e.target.value)}
-                  className="border p-2 rounded"
-                />
-                {calculationType === 'free' && (
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={bet.isFree}
-                      onChange={() => toggleFreeBet(index)}
-                      className="form-checkbox"
-                    />
-                    <span>Free Bet</span>
-                  </label>
-                )}
-              </div>
-            ))}
-            <button type="button" onClick={addBackBet} className="bg-green-500 text-white px-4 py-2 rounded">
-              Add Back Bet
-            </button>
-          </div>
-
-          {calculationType !== 'cashout' && (
-            <div>
-              <h2 className="text-xl font-semibold mb-2">Lay Bets</h2>
-              {layBets.map((bet, index) => (
-                <div key={index} className="flex space-x-2 mb-2">
-                  <input
-                    type="number"
-                    step="0.01"
-                    placeholder="Odds"
-                    value={bet.odds}
-                    onChange={(e) => handleLayBetChange(index, 'odds', e.target.value)}
-                    className="border p-2 rounded"
-                  />
-                  <input
-                    type="number"
-                    step="0.01"
-                    placeholder="Liability"
-                    value={bet.liability}
-                    onChange={(e) => handleLayBetChange(index, 'liability', e.target.value)}
-                    className="border p-2 rounded"
-                  />
-                </div>
-              ))}
-              <button type="button" onClick={addLayBet} className="bg-green-500 text-white px-4 py-2 rounded">
-                Add Lay Bet
-              </button>
-            </div>
-          )}
-
-          {calculationType === 'cashout' && (
-            <div>
-              <label className="block mb-2">Cash Out Value</label>
-              <input
-                type="number"
-                step="0.01"
-                value={cashoutValue}
-                onChange={(e) => setCashoutValue(e.target.value)}
-                className="border p-2 rounded w-full"
-              />
-            </div>
-          )}
-
-          <div>
-            <label htmlFor="commission" className="block mb-2">Commission (%)</label>
-            <input
-              type="number"
-              step="0.01"
-              id="commission"
-              value={commission}
-              onChange={(e) => setCommission(e.target.value)}
-              className="border p-2 rounded"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded font-semibold"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Calculating...' : 'Calculate'}
-          </button>
-        </form>
-
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-
+        {/* Results Display */}
+        {error && <div className="text-red-600 mb-4">{error}</div>}
         {result && (
-          <div className="mt-6 p-4 bg-gray-50 rounded">
-            <h2 className="text-xl font-semibold mb-2">Result</h2>
-            <pre className="whitespace-pre-wrap">
-              {JSON.stringify(result, null, 2)}
-            </pre>
+          <div className="mt-8">
+            <h4 className="text-xl font-semibold text-center mb-4">Calculation Results:</h4>
+            <div className="overflow-x-auto">
+              <table className="min-w-full border-collapse border border-gray-300">
+                <thead className="bg-gray-800 text-white">
+                  <tr>
+                    <th className="p-3 text-left">Parameter</th>
+                    <th className="p-3 text-left">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(result).map(([key, value]) => (
+                    <tr key={key} className="even:bg-gray-50">
+                      <td className="p-3 border">{key.replace(/_/g, ' ').toUpperCase()}</td>
+                      <td className="p-3 border">{typeof value === 'number' ? value.toFixed(2) : value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
+
+      <footer className="text-center text-gray-600 mt-8">
+        <p>Sports Trading AI Prediction © 2024</p>
+      </footer>
     </div>
   );
 };

@@ -12,7 +12,7 @@ const ProbabilityCalculator = () => {
       setProbability(null);
   
       try {
-        const response = await axios.post('http://16.16.10.60:5000/calculate-probability', {
+        const response = await axios.post('http://45.119.47.81:5000/calculate-probability', {
           fair_odds: parseFloat(fairOdds)
         });
         setProbability(response.data.probability);

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Back Lay Betting Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        .lay-bet-group {
+            background-color: #ffe6e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Back Lay Betting Calculator</h1>
+        <form id="betForm" class="mb-3">
+            <h3>Back Bets</h3>
+            <div id="backBetsContainer">
+                <div class="form-group">
+                    <label>Back Odds:</label>
+                    <input type="number" name="back_odds" class="form-control" step="0.01" required>
+                    <label>Back Stake:</label>
+                    <input type="number" name="back_stake" class="form-control" step="0.01" required>
+                </div>
+            </div>
+            <button type="button" id="addBackBet" class="btn btn-secondary mb-3">Add More Back Bets</button>
+
+            <h3>Lay Bets</h3>
+            <div id="layBetsContainer">
+                <div class="form-group lay-bet-group">
+                    <label>Lay Odds:</label>
+                    <input type="number" name="lay_odds" class="form-control lay-odds" step="0.01" required>
+                    <label>Lay Liability:</label>
+                    <input type="number" name="lay_liability" class="form-control lay-liability" step="0.01" required>
+                    <label>Calculated Lay Stake:</label>
+                    <input type="number" name="lay_stake" class="form-control lay-stake" readonly>
+                </div>
+            </div>
+            <button type="button" id="addLayBet" class="btn btn-secondary mb-3">Add More Lay Bets</button>
+            
+            <div class="form-group">
+                <label>Commission (%):</label>
+                <input type="number" id="commission" class="form-control" value="3" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitBets('greenbook')">Calculate Greenbook</button>
+            <button type="button" class="btn btn-primary" onclick="submitBets('freebet_for')">Calculate Freebet For</button>
+            <button type="button" class="btn btn-primary" onclick="submitBets('freebet_against')">Calculate Freebet Against</button>
+            <button type="button" class="btn btn-primary" onclick="submitBets('current_profit')">Calculate Current Profit</button>
+            <button type="button" class="btn btn-danger" onclick="submitBets('cashout')">Calculate Cashout</button>
+        </form>
+
+        <div id="results" class="mt-4">
+            <h4 class="text-center">Calculation Results:</h4>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody">
+                    <!-- Results will be appended here -->
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Sports Trading AI Prediction © 2024</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        function calculateLayStake(lay_odds, lay_liability) {
+            return (lay_liability / (lay_odds - 1)).toFixed(2);
+        }
+
+        // Update Lay Stakes for each lay bet
+        function updateLayStakes() {
+            $('.lay-bet-group').each(function() {
+                var lay_odds = parseFloat($(this).find('.lay-odds').val());
+                var lay_liability = parseFloat($(this).find('.lay-liability').val());
+                
+                if (!isNaN(lay_odds) && !isNaN(lay_liability)) {
+                    var lay_stake = calculateLayStake(lay_odds, lay_liability);
+                    $(this).find('.lay-stake').val(lay_stake);
+                }
+            });
+        }
+
+        // Add more Lay Bets
+        $('#addLayBet').click(function() {
+            $('#layBetsContainer').append(`
+                <div class="form-group lay-bet-group">
+                    <label>Lay Odds:</label>
+                    <input type="number" name="lay_odds" class="form-control lay-odds" step="0.01" required>
+                    <label>Lay Liability:</label>
+                    <input type="number" name="lay_liability" class="form-control lay-liability" step="0.01" required>
+                    <label>Calculated Lay Stake:</label>
+                    <input type="number" name="lay_stake" class="form-control lay-stake" readonly>
+                </div>
+            `);
+        });
+
+        // Add more Back Bets
+        $('#addBackBet').click(function() {
+            $('#backBetsContainer').append(`
+                <div class="form-group">
+                    <label>Back Odds:</label>
+                    <input type="number" name="back_odds" class="form-control" step="0.01" required>
+                    <label>Back Stake:</label>
+                    <input type="number" name="back_stake" class="form-control" step="0.01" required>
+                </div>
+            `);
+        });
+
+        // Trigger Lay Stake Calculation when Lay Odds or Liability change
+        $(document).on('input', '.lay-odds, .lay-liability', function() {
+            updateLayStakes();
+        });
+
+        function submitBets(bet_type) {
+            var back_bets = [];
+            $('#backBetsContainer .form-group').each(function() {
+                var back_odds = parseFloat($(this).find('[name="back_odds"]').val());
+                var back_stake = parseFloat($(this).find('[name="back_stake"]').val());
+                if (!isNaN(back_odds) && !isNaN(back_stake)) {
+                    back_bets.push({odds: back_odds, stake: back_stake});
+                }
+            });
+
+            var lay_bets = [];
+            $('#layBetsContainer .lay-bet-group').each(function() {
+                var lay_odds = parseFloat($(this).find('[name="lay_odds"]').val());
+                var lay_liability = parseFloat($(this).find('[name="lay_liability"]').val());
+                if (!isNaN(lay_odds) && !isNaN(lay_liability)) {
+                    lay_bets.push({odds: lay_odds, liability: lay_liability});
+                }
+            });
+
+            var commission = parseFloat($('#commission').val());
+
+            $.ajax({
+                type: 'POST',
+                url: `/calculate_bets/${bet_type}`,
+                contentType: 'application/json',
+                data: JSON.stringify({ back_bets, lay_bets, commission }),
+                success: function(response) {
+                    $('#resultBody').empty();
+                    Object.entries(response).forEach(function([key, value]) {
+                        $('#resultBody').append(`
+                            <tr>
+                                <td>${key.toUpperCase()}</td>
+                                <td>${value}</td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function() {
+                    $('#resultBody').html('<tr><td colspan="2">Error in calculation. Please check your inputs.</td></tr>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
