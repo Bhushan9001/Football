@@ -83,7 +83,7 @@ function SportsTradingBettingCalculator() {
     });
 
     try {
-      const response = await axios.post('http://localhost:5000/stbetting', formData, {
+      const response = await axios.post('http://45.119.47.81:5000/stbetting', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setResults(response.data.results);
