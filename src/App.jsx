@@ -58,6 +58,7 @@ import BettingCalculator from "./components/website/BettingCalculator";
 import SportsBettingCalculator from "./components/website/SportsTradingBettingCalculator";
 import ProbabilityCalculator from "./components/website/ProbabilityCalculator";
 import CalculatorV2 from "./components/website/CalculatorV2";
+import XGCalculator from "./components/website/XGCalculator";
 import GreenBookCalculator from "./components/website/GreenBookCalculator";
 
 function App() {
@@ -108,6 +109,7 @@ function App() {
               <Route path="sports-trading-betting-calculator" element={<SportsBettingCalculator />} />
               <Route path="probability-calculator" element={<ProbabilityCalculator/>} />
               <Route path="calculator-v2" element={<CalculatorV2/>} />
+              <Route path="xg-calculator-v2" element={<XGCalculator/>} />
               <Route path="green-calculator" element={<GreenBookCalculator/>} />
               
               <Route path="game-strategies" element={<GameStrategies/>} />

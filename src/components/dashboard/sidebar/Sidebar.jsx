@@ -119,6 +119,15 @@ function Sidebar({ setMinimizeSidebar }) {
             <li>
               <NavLink
                 onClick={setMinimizeSidebar}
+                to="xg-calculator-v2"
+                className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
+              >
+                xG-Based Probability Calculator
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                onClick={setMinimizeSidebar}
                 to="green-calculator"
                 className="block px-4 py-2 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
               >

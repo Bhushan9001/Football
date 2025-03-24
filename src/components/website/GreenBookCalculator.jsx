@@ -59,7 +59,7 @@ const GreenBookCalculator = () => {
         commission: parseFloat(commission)
       };
 
-      const response = await fetch(`http://45.119.47.81:5000/calculate_bets/${type}`, {
+      const response = await fetch(`http://localhost:5000/calculate_bets/${type}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

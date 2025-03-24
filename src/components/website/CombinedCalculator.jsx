@@ -41,7 +41,7 @@ const CombinedCalculator = () => {
 
     try {
       const response = await axios.post(
-        "http://45.119.47.81:5000/poisson-predictor",
+        "http://localhost:5000/poisson-predictor",
         data,
         {
           headers: { "Content-Type": "application/json" },
@@ -104,7 +104,7 @@ const CombinedCalculator = () => {
 
     try {
       const response = await axios.post(
-        "http://45.119.47.81:5000/kelly-calculator",
+        "http://localhost:5000/kelly-calculator",
         data,
         {
           headers: { "Content-Type": "application/json" },
@@ -216,30 +216,40 @@ const CombinedCalculator = () => {
           {poissonResults && (
             <div className="mt-8 text-gray-800 bg-gray-50 rounded-xl p-6 shadow-inner">
               <h3 className="text-2xl font-bold mb-6 text-blue-700">Results</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-blue-100">
-                      <th className="border border-blue-200 p-3 text-left">Outcome</th>
-                      <th className="border border-blue-200 p-3 text-left">Probability (%)</th>
-                      <th className="border border-blue-200 p-3 text-left">Fair Odds</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.entries(poissonResults["1X2_probabilities"]).map(
-                      ([key, value]) => (
+              {poissonResults["1X2_probabilities"] && poissonResults["1X2_fair_odds"] ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-blue-100">
+                        <th className="border border-blue-200 p-3 text-left">Outcome</th>
+                        <th className="border border-blue-200 p-3 text-left">Probability (%)</th>
+                        <th className="border border-blue-200 p-3 text-left">Fair Odds</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { key: "home_win", label: "Home Win" },
+                        { key: "draw", label: "Draw" },
+                        { key: "away_win", label: "Away Win" },
+                      ].map(({ key, label }) => (
                         <tr key={key} className="hover:bg-blue-50">
-                          <td className="border border-blue-200 p-3">{key}</td>
-                          <td className="border border-blue-200 p-3">{value}</td>
+                          <td className="border border-blue-200 p-3">{label}</td>
+                          <td className="border border-blue-200 p-3">
+                            {poissonResults["1X2_probabilities"][key]}
+                          </td>
                           <td className="border border-blue-200 p-3">
                             {poissonResults["1X2_fair_odds"][key]}
                           </td>
                         </tr>
-                      )
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p className="text-red-600 font-semibold">
+                  No probability or fair odds data found in the response.
+                </p>
+              )}
             </div>
           )}
         </div>
