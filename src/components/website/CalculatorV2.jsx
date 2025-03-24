@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const CalculatorV2 = () => {
   const [formData, setFormData] = useState({
@@ -16,18 +17,18 @@ const CalculatorV2 = () => {
   });
 
   const [result, setResult] = useState({
-    "away_team": 3,
-    "current_score_away": 2,
-    "current_score_home": 2,
-    "fair_odds_away": 3.14,
-    "fair_odds_draw": 2.75,
-    "fair_odds_home": 3.14,
-    "home_team": 3,
-    "overdue_goals_away": 1,
-    "overdue_goals_home": -1,
-    "prob_away_win": 31.84,
-    "prob_draw": 36.33,
-    "prob_home_win": 31.84
+    "away_team": 0,
+    "current_score_away": 0,
+    "current_score_home": 0,
+    "fair_odds_away": 0,
+    "fair_odds_draw": 0,
+    "fair_odds_home": 0,
+    "home_team": 0,
+    "overdue_goals_away": 0,
+    "overdue_goals_home": 0,
+    "prob_away_win": 0,
+    "prob_draw": 0,
+    "prob_home_win": 0
   });
   
   const [error, setError] = useState(null);
@@ -42,7 +43,16 @@ const CalculatorV2 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+    setError(null);
+    setResult(null);
+
+    try {
+      const response = await axios.post('http://45.119.47.81:5000/calculate', formData);
+      setResult(response.data);
+    } catch (err) {
+      setError('An error occurred while calculating the probability.');
+      console.error('Error:', err);
+    }
   };
 
   return (
