@@ -32,7 +32,7 @@ const PredictionModel = () => {
     });
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/predict', {
+      const response = await fetch('http://45.119.47.81:5000/predict', {
         method: 'POST',
         body: form
       });
