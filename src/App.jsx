@@ -53,6 +53,7 @@ import GameStatistics from "./components/dashboard/game-statistics/GameStatistic
 import OddsVisualizer from "./components/dashboard/odds/OddsData";
 import Odds from "./components/dashboard/odds/Odds";
 import PredictionsSection from "./components/dashboard/predictions-section/PredictionsSection";
+import PredictionModel from "./components/website/PredictionModel";
 import GameStrategies from "./components/dashboard/game-strategies/GameStrategies";
 import BettingCalculator from "./components/website/BettingCalculator";
 import SportsBettingCalculator from "./components/website/SportsTradingBettingCalculator";
@@ -102,6 +103,7 @@ function App() {
                 element={<FavouriteWatchList />}
               />
               <Route path="predictions-section" element={<PredictionsSection/>} />
+              <Route path="ml-prediction-model" element={<PredictionModel/>} />
               <Route path="calculator" element={<CalculatorV1 />} />
               {/* New Routes */}
               <Route path="combined-calculator" element={<CombinedCalculator />} />

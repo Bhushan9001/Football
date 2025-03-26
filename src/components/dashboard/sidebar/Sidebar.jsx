@@ -37,10 +37,10 @@ function Sidebar({ setMinimizeSidebar }) {
         <li>
           <NavLink
             onClick={setMinimizeSidebar}
-            to="Predictions-section"
+            to="ml-prediction-model"
             className="inline-block py-3 text-sm text-[#808080] transition hover:text-white aria-[current=page]:text-white"
           >
-            Predictions
+            ML Predictions
           </NavLink>
         </li>
         <li className="relative group">
@@ -156,7 +156,7 @@ function Sidebar({ setMinimizeSidebar }) {
               >
                 <span>Panel</span>
                 <i className="bi bi-newspaper"></i>
-              </NavLink>
+:5000              </NavLink>
             </li>
             <li>
               <NavLink
