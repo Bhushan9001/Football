@@ -30,7 +30,7 @@ function XGCalculator() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://45.119.47.81:5000/calculate', formData);
+      const response = await axios.post('http://16.16.10.60:5000/calculate', formData);
       setResults({
         prob_home: response.data.prob_home_win,
         prob_draw: response.data.prob_draw,
